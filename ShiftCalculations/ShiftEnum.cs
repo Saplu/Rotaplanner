@@ -4,5 +4,6 @@ using System.Text;
 
 namespace ShiftCalculations
 {
-    public enum ShiftEnum { Open, Second, Third, Middle, FirstEvening, SecondEvening, ThirdEvening, Shut}
+    public enum ShiftEnum { Open, Second, Third, Fourth, FirstMiddle, SecondMiddle, ThirdMiddle,
+        FourthMiddle, FirstEvening, SecondEvening, ThirdEvening, Shut}
 }

@@ -10,11 +10,6 @@ namespace ShiftCalculations
         public bool Locked { get; set; } = false;
         public ShiftEnum Shift { get => _shift; set => _shift = value; }
 
-        public WorkShift()
-        {
-            _shift = ShiftEnum.Middle;
-        }
-
         public WorkShift(ShiftEnum shift)
         {
             _shift = shift;
@@ -24,6 +19,19 @@ namespace ShiftCalculations
         {
             _shift = shift;
             Locked = locked;
+        }
+
+        public override bool Equals(object obj)
+        {
+            var toCompareWith = obj as WorkShift;
+            if (toCompareWith != null)
+            {
+                if (toCompareWith.Locked == this.Locked &&
+                        toCompareWith.Shift == this.Shift)
+                        return true;
+                else return false;
+            }
+            else return false;
         }
     }
 }
