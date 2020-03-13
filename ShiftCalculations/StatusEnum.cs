@@ -2,7 +2,5 @@
 
 namespace ShiftCalculations
 {
-    public class Class1
-    {
-    }
+    public enum StatusEnum { Teacher, Nurse}
 }

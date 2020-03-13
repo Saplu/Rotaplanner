@@ -1,4 +1,5 @@
 ﻿using System;
+using ShiftCalculations;
 
 namespace RotaplannerConsole
 {
@@ -6,7 +7,8 @@ namespace RotaplannerConsole
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var dc = new Daycare();
+            dc.Employees.ForEach(d => Console.WriteLine($"{d.Id} {d.Status}"));
         }
     }
 }
