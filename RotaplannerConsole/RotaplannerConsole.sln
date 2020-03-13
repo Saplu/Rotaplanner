@@ -5,6 +5,10 @@ VisualStudioVersion = 16.0.29905.134
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RotaplannerConsole", "RotaplannerConsole\RotaplannerConsole.csproj", "{5BF52AA6-6BCD-4713-944A-B9E923E199EF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShiftCalculations", "..\ShiftCalculations\ShiftCalculations.csproj", "{2F003474-130B-404B-82EF-03D68F266707}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "..\UnitTests\UnitTests.csproj", "{7BB0C469-71C8-4AEA-827F-025425F812FA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{5BF52AA6-6BCD-4713-944A-B9E923E199EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5BF52AA6-6BCD-4713-944A-B9E923E199EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5BF52AA6-6BCD-4713-944A-B9E923E199EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F003474-130B-404B-82EF-03D68F266707}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F003474-130B-404B-82EF-03D68F266707}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F003474-130B-404B-82EF-03D68F266707}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F003474-130B-404B-82EF-03D68F266707}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BB0C469-71C8-4AEA-827F-025425F812FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BB0C469-71C8-4AEA-827F-025425F812FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BB0C469-71C8-4AEA-827F-025425F812FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BB0C469-71C8-4AEA-827F-025425F812FA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
