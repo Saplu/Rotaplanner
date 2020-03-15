@@ -6,7 +6,7 @@ namespace ShiftCalculations
 {
     public class Team
     {
-        public List<Employee> TeamEmp { get; }
+        public virtual List<Employee> TeamEmp { get; set; }
         public int TeamNumber { get; }
 
         public Team(int teamNumber, int teachers = 1)
@@ -25,6 +25,12 @@ namespace ShiftCalculations
                     break;
                 default: throw new ArgumentException("Must be either 1 or 2 teachers per team.");
             }
+        }
+
+        public Team()
+        {
+            TeamNumber = 1;
+            TeamEmp = new List<Employee>();
         }
     }
 }

@@ -33,5 +33,10 @@ namespace ShiftCalculations
             }
             else return false;
         }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(_shift, Locked, Shift);
+        }
     }
 }

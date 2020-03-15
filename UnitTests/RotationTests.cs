@@ -1,6 +1,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ShiftCalculations;
 using System.Collections.Generic;
+using Moq;
 
 namespace UnitTests
 {
@@ -88,6 +89,21 @@ namespace UnitTests
                 new WorkShift(ShiftEnum.Shut),
                 new WorkShift(ShiftEnum.Fourth)
             };
+
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void EmployeeRotation()
+        {
+            var dc = new Daycare();
+            dc.RotateTeamsOneWeek();
+            var expected = new List<StatusEnum>() { StatusEnum.Teacher, StatusEnum.Nurse, StatusEnum.Teacher,
+            StatusEnum.Nurse, StatusEnum.Nurse, StatusEnum.Teacher,
+            StatusEnum.Teacher, StatusEnum.Nurse, StatusEnum.Teacher,
+            StatusEnum.Nurse, StatusEnum.Nurse, StatusEnum.Teacher};
+            var actual = new List<StatusEnum>();
+            dc.Teams.ForEach(t => t.TeamEmp.ForEach(e => actual.Add(e.Status)));
 
             CollectionAssert.AreEqual(expected, actual);
         }
