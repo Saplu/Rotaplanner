@@ -25,12 +25,7 @@ namespace ShiftCalculations
         {
             var toCompareWith = obj as WorkShift;
             if (toCompareWith != null)
-            {
-                if (toCompareWith.Locked == this.Locked &&
-                        toCompareWith.Shift == this.Shift)
-                        return true;
-                else return false;
-            }
+                return (toCompareWith.Locked == this.Locked && toCompareWith.Shift == this.Shift);
             else return false;
         }
 

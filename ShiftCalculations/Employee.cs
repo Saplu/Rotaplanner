@@ -34,11 +34,13 @@ namespace ShiftCalculations
         {
             var toCompareWith = obj as Employee;
             if (toCompareWith != null)
-            {
-                if (toCompareWith.Id == this.Id)
-                    return true;
-            }
+                return toCompareWith.Id == this.Id;
             return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(_id, _status, _shifts, _team, Id, Status, Shifts, Team);
         }
     }
 }
