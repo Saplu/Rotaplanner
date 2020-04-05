@@ -12,8 +12,10 @@ namespace RotaplannerConsole
             var calc = new RotationCalculator();
 
             calc.DaycareShiftsOfThreeWeeks(dc, 1);
-            calc.Switch(dc, new Wish(dc.Employees[2], 9, 0));
-            calc.Switch(dc, new Wish(dc.Employees[10], 5, 0));
+            //calc.Switch(dc, new Wish(dc.Employees[2], 9, 0));
+            //calc.Switch(dc, new Wish(dc.Employees[10], 5, 0));
+            calc.Switch(dc, new Wish(dc.Employees[1], 10, 1));
+            calc.Switch(dc, new Wish(dc.Employees[5], 10, 1));
 
             foreach (var team in dc.Teams)
             {

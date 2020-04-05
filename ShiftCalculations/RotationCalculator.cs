@@ -33,9 +33,10 @@ namespace ShiftCalculations
         {
             var team = dc.Teams[wish.Employee.Team];
             AdjustTeamByWish(team, wish);
-
-            //var current = dc.Employees.Find(e => Convert.ToInt32(e.Shifts[wish.Day].Shift) == wish.WantedShift);
-            //return current.Id.ToString();
+            var current = Convert.ToInt32(wish.Employee.Shifts[wish.Day].Shift);
+            var wanted = wish.WantedShift;
+            if (current != wanted)
+                AdjustDaycareByWish(dc, wish, current);
         }
 
         private int GetWeekStatus(Team team, int openingTeam)
@@ -113,5 +114,39 @@ namespace ShiftCalculations
                 team.TeamEmp[wisher].Shifts[wish.Day] = current;
             }
         }
+
+        private void AdjustDaycareByWish(Daycare dc, Wish wish, int current)
+        {
+            if (current >= 4 && current <= 7) return;
+            var shiftList = PossibleShifts(wish.WantedShift);
+            shiftList.Remove(current);
+            foreach(var item in shiftList)
+            {
+                var emp = dc.Employees.Find(e => Convert.ToInt32(e.Shifts[wish.Day].Shift) == item);
+                if (!emp.Shifts[wish.Day].Locked)
+                {
+                    var oldShift = wish.Employee.Shifts[wish.Day].Shift;
+                    var newShift = emp.Shifts[wish.Day].Shift;
+                    wish.Employee.Shifts[wish.Day].Shift = newShift;
+                    emp.Shifts[wish.Day].Shift = oldShift;
+                    wish.Employee.Shifts[wish.Day].Locked = true;
+                    break;
+                }
+            }
+        }
+
+        private List<int> PossibleShifts(int wanted) =>
+            wanted switch
+            {
+                0 => new List<int>() { 0, 1, 2, 3},
+                1 => new List<int>() { 1, 2, 3, 0},
+                2 => new List<int>() { 2, 3, 1, 0},
+                3 => new List<int>() { 3, 2, 1, 0},
+                8 => new List<int>() { 8, 9, 10, 11},
+                9 => new List<int>() { 9, 10, 8, 11},
+                10 => new List<int>() { 10, 11, 9, 8},
+                11 => new List<int>() { 11, 10, 9, 8},
+                _ => throw new Exception("Something is broken, burn the evidence.")
+            };
     }
 }
