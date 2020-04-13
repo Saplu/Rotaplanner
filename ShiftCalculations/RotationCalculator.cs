@@ -18,14 +18,15 @@ namespace ShiftCalculations
         public void DaycareShiftsOfThreeWeeks(Daycare dc, int openingTeam)
         {
             dc.Teams.ForEach(t => TeamShiftsOfWeek(t, openingTeam));
-            dc.RotateTeamsOneWeek();
             openingTeam++;
             if (openingTeam > 3)
                 openingTeam = 0;
+            dc.RotateTeamsOneWeek();
             dc.Teams.ForEach(t => TeamShiftsOfWeek(t, openingTeam));
             openingTeam++;
             if (openingTeam > 3)
                 openingTeam = 0;
+            dc.RotateTeamsOneWeek();
             dc.Teams.ForEach(t => TeamShiftsOfWeek(t, openingTeam));
         }
 
@@ -37,6 +38,22 @@ namespace ShiftCalculations
             var wanted = wish.WantedShift;
             if (current != wanted)
                 AdjustDaycareByWish(dc, wish, current);
+        }
+
+        public void CheckTeacherSwitches(Daycare dc)
+        {
+            foreach(var emp in dc.Employees)
+            {
+                if (emp.Status == StatusEnum.Teacher)
+                {
+                    var counts = GetOpensAndCloses(emp.Shifts, 0, 5);
+                    CheckTeacherWeek(emp, counts, dc);
+                    counts = GetOpensAndCloses(emp.Shifts, 5, 10);
+                    CheckTeacherWeek(emp, counts, dc);
+                    counts = GetOpensAndCloses(emp.Shifts, 10, 15);
+                    CheckTeacherWeek(emp, counts, dc);
+                }
+            }
         }
 
         private int GetWeekStatus(Team team, int openingTeam)
@@ -99,7 +116,7 @@ namespace ShiftCalculations
                 team.TeamEmp[wisher].Shifts[wish.Day] = current;
                 
             }
-            else if (wish.WantedShift <= 7 && team.TeamEmp[teamMiddle] != wish.Employee)
+            else if (wish.WantedShift <= 7 && wish.WantedShift >= 4 && team.TeamEmp[teamMiddle] != wish.Employee)
             {
                 var current = team.TeamEmp[teamMiddle].Shifts[wish.Day];
                 var newSwitch = wish.Employee.Shifts[wish.Day];
@@ -148,5 +165,35 @@ namespace ShiftCalculations
                 11 => new List<int>() { 11, 10, 9, 8},
                 _ => throw new Exception("Something is broken, burn the evidence.")
             };
+
+        private (List<int>, List<int>) GetOpensAndCloses(List<WorkShift> shifts, int start, int end)
+        {
+            var opens = new List<int>();
+            var shuts = new List<int>();
+            for (int i = start; i < end; i++)
+            {
+                if (shifts[i].Shift == ShiftEnum.Open)
+                    opens.Add(i);
+                if (shifts[i].Shift == ShiftEnum.Shut)
+                    shuts.Add(i);
+            }
+            return (opens, shuts);
+        }
+
+        private void CheckTeacherWeek(Employee emp, (List<int>, List<int>) counts, Daycare dc)
+        {
+            if (counts.Item1.Count > 1)
+                for (int i = 1; i < counts.Item1.Count; i++)
+                {
+                    var wish = new Wish(emp, 1, counts.Item1[i]);
+                    Switch(dc, wish);
+                }
+            if (counts.Item2.Count > 1)
+                for (int i = 1; i < counts.Item2.Count; i++)
+                {
+                    var wish = new Wish(emp, 10, counts.Item2[i]);
+                    Switch(dc, wish);
+                }
+        }
     }
 }
