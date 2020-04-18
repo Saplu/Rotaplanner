@@ -11,28 +11,31 @@ namespace RotaplannerConsole
 
             var calc = new RotationCalculator();
 
-            calc.DaycareShiftsOfThreeWeeks(dc, 1);
-            calc.Switch(dc, new Wish(dc.Employees[2], 9, 0));
-            calc.Switch(dc, new Wish(dc.Employees[10], 5, 0));
-            calc.Switch(dc, new Wish(dc.Employees[1], 10, 1));
-            calc.Switch(dc, new Wish(dc.Employees[5], 10, 1));
-            calc.Switch(dc, new Wish(dc.Employees[8], 4, 2));
-            calc.Switch(dc, new Wish(dc.Employees[6], 0, 2));
-            calc.CheckTeacherSwitches(dc);
-
-            foreach (var team in dc.Teams)
+            try
             {
-                foreach(var emp in team.TeamEmp)
+                calc.DaycareShiftsOfThreeWeeks(dc, 1);
+                calc.Switch(dc, new Wish(dc.Employees.Find(e => e.Id == 0), 9, 3));
+                calc.Switch(dc, new Wish(dc.Employees.Find(e => e.Id == 1), 9, 2));
+                calc.CheckTeacherSwitches(dc);
+
+                foreach (var team in dc.Teams)
                 {
-                    var shifts = emp.Id.ToString() + " " + emp.Status.ToString() + ": ";
-                    foreach(var shift in emp.Shifts)
+                    foreach(var emp in team.TeamEmp)
                     {
-                        var num = Convert.ToInt32(shift.Shift);
-                        shifts += num + ((num > 9) ? " " : "  ");
+                        var shifts = emp.Id.ToString() + " " + emp.Status.ToString() + ": ";
+                        foreach(var shift in emp.Shifts)
+                        {
+                            var num = Convert.ToInt32(shift.Shift);
+                            shifts += num + ((num > 9) ? " " : "  ");
+                        }
+                        Console.WriteLine(shifts);
                     }
-                    Console.WriteLine(shifts);
+                    Console.WriteLine("\n");
                 }
-                Console.WriteLine("\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
         }
     }
