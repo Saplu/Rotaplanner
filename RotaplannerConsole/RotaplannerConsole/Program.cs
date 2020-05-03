@@ -14,10 +14,10 @@ namespace RotaplannerConsole
 
             try
             {
-                var wishes = new List<Wish>() { new Wish(dc.Employees.Find(e => e.Id == 0), 9, 3),
-                    new Wish(dc.Employees.Find(e => e.Id == 1), 9, 2)
-                };
-                calc.DaycareShiftsOfThreeWeeks(dc, 1, wishes);
+                var wishes = new List<Wish>(); //{ new Wish(dc.Employees.Find(e => e.Id == 1), 1, 1),
+                //    new Wish(dc.Employees.Find(e => e.Id == 9), 10, 1)
+                //};
+                calc.DaycareShiftsOfThreeWeeks(dc, 0, wishes);
 
                 foreach (var team in dc.Teams)
                 {
