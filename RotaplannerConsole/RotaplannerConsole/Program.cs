@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using ShiftCalculations;
 
 namespace RotaplannerConsole
@@ -13,10 +14,10 @@ namespace RotaplannerConsole
 
             try
             {
-                calc.DaycareShiftsOfThreeWeeks(dc, 1);
-                calc.Switch(dc, new Wish(dc.Employees.Find(e => e.Id == 0), 9, 3));
-                calc.Switch(dc, new Wish(dc.Employees.Find(e => e.Id == 1), 9, 2));
-                calc.CheckTeacherSwitches(dc);
+                var wishes = new List<Wish>() { new Wish(dc.Employees.Find(e => e.Id == 0), 9, 3),
+                    new Wish(dc.Employees.Find(e => e.Id == 1), 9, 2)
+                };
+                calc.DaycareShiftsOfThreeWeeks(dc, 1, wishes);
 
                 foreach (var team in dc.Teams)
                 {

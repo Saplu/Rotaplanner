@@ -7,6 +7,25 @@ namespace ShiftCalculations
 {
     public class RotationCalculator
     {
+
+        public void DaycareShiftsOfThreeWeeks(Daycare dc, int openingTeam, List<Wish> wishes)
+        {
+            dc.Teams.ForEach(t => TeamShiftsOfWeek(t, openingTeam));
+            openingTeam++;
+            if (openingTeam > 3)
+                openingTeam = 0;
+            dc.RotateTeamsOneWeek();
+            dc.Teams.ForEach(t => TeamShiftsOfWeek(t, openingTeam));
+            openingTeam++;
+            if (openingTeam > 3)
+                openingTeam = 0;
+            dc.RotateTeamsOneWeek();
+            dc.Teams.ForEach(t => TeamShiftsOfWeek(t, openingTeam));
+
+            foreach(var wish in wishes)
+                Switch(dc, wish);
+            CheckTeacherSwitches(dc);
+        }
         public List<WorkShift> TeamShiftsOfWeek(Team team, int openingTeam)
         {
             var status = GetWeekStatus(team, openingTeam);
@@ -15,22 +34,7 @@ namespace ShiftCalculations
             return shifts;
         }
 
-        public void DaycareShiftsOfThreeWeeks(Daycare dc, int openingTeam)
-        {
-            dc.Teams.ForEach(t => TeamShiftsOfWeek(t, openingTeam));
-            openingTeam++;
-            if (openingTeam > 3)
-                openingTeam = 0;
-            dc.RotateTeamsOneWeek();
-            dc.Teams.ForEach(t => TeamShiftsOfWeek(t, openingTeam));
-            openingTeam++;
-            if (openingTeam > 3)
-                openingTeam = 0;
-            dc.RotateTeamsOneWeek();
-            dc.Teams.ForEach(t => TeamShiftsOfWeek(t, openingTeam));
-        }
-
-        public void Switch(Daycare dc, Wish wish)
+        private void Switch(Daycare dc, Wish wish)
         {
             var team = dc.Teams[wish.Employee.Team];
             AdjustTeamByWish(team, wish);
@@ -40,7 +44,7 @@ namespace ShiftCalculations
                 AdjustDaycareByWish(dc, wish, current);
         }
 
-        public void CheckTeacherSwitches(Daycare dc)
+        private void CheckTeacherSwitches(Daycare dc)
         {
             foreach(var emp in dc.Employees)
             {
