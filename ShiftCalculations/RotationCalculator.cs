@@ -10,6 +10,7 @@ namespace ShiftCalculations
 
         public void DaycareShiftsOfThreeWeeks(Daycare dc, int openingTeam, List<Wish> wishes)
         {
+            CheckDuplicates(wishes);
             dc.Teams.ForEach(t => TeamShiftsOfWeek(t, openingTeam));
             openingTeam++;
             if (openingTeam > 3)
@@ -228,6 +229,20 @@ namespace ShiftCalculations
             {
                 var wish = new Wish(emp, 3, w3);
                 Switch(dc, wish);
+            }
+        }
+
+        private void CheckDuplicates(List<Wish> wishes)
+        {
+            if (wishes
+                .GroupBy(w => new
+                {
+                    w.Day,
+                    w.WantedShift
+                })
+                .Any(g => g.Count() > 1))
+            {
+                throw new ArgumentException("Duplicate wishes");
             }
         }
     }
