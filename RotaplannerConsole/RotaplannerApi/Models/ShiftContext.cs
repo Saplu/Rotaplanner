@@ -10,9 +10,9 @@ namespace RotaplannerApi.Models
     {
         public ShiftContext(DbContextOptions<ShiftContext> options) : base(options)
         {
-
         }
 
         public DbSet<ShiftWish> Wishes { get; set; }
+        public DbSet<Group> Groups { get; set; }
     }
 }

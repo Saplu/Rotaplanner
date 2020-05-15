@@ -36,9 +36,14 @@ namespace RotaplannerApi.Controllers
                 foreach(var item in _context.Wishes)
                 {
                     var emp = _dc.Employees.Find(e => e.Id == item.EmpId);
-                    _wishes.Add(new Wish(emp, item.Shift, item.Day));
+                    _wishes.Add(new Wish(emp, (int)item.Shift, (int)item.Day));
                 }
-                _calc.DaycareShiftsOfThreeWeeks(_dc, 2, _wishes);
+                var group = 0;
+                foreach (var item in _context.Groups)
+                {
+                    group = item.OpenGroup;
+                }
+                _calc.DaycareShiftsOfThreeWeeks(_dc, group, _wishes);
                 var allShifts = "";
                 foreach (var team in _dc.Teams)
                 {
@@ -61,34 +66,38 @@ namespace RotaplannerApi.Controllers
             }
         }
 
-        // POST: api/DCShifts
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<ShiftWish>> PostWish(ShiftWish wish)
+        public async Task<ActionResult<object>> PostData(ShiftWish wish)
         {
-
-            _context.Wishes.Add(wish);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetDCShifts", new { id = wish.Id }, wish);
-        }
-
-        // DELETE: api/DCShifts/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<ShiftWish>> DeleteWish(long id)
-        {
-            var wish = await _context.Wishes.FindAsync(id);
-            if (wish == null)
+            if (wish.OpenGroup != null)
             {
-                return NotFound();
+                _context.Groups.Add(new Group((int)wish.Id, (int)wish.OpenGroup));
+                await _context.SaveChangesAsync();
+                return CreatedAtAction("GetDCShifts", new { id = wish.Id }, wish.OpenGroup);
             }
+            else
+            {
+                _context.Wishes.Add(wish);
+                await _context.SaveChangesAsync();
+                return CreatedAtAction("GetDCShifts", new { id = wish.Id }, wish);
+            }
+        } 
 
-            _context.Wishes.Remove(wish);
-            await _context.SaveChangesAsync();
+        //// DELETE: api/DCShifts/5
+        //[HttpDelete("{id}")]
+        //public async Task<ActionResult<ShiftWish>> DeleteWish(long id)
+        //{
+        //    var wish = await _context.Wishes.FindAsync(id);
+        //    if (wish == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return wish;
-        }
+        //    _context.Wishes.Remove(wish);
+        //    await _context.SaveChangesAsync();
+
+        //    return wish;
+        //}
 
         private bool DCShiftsExists(long id)
         {
