@@ -67,20 +67,23 @@ namespace RotaplannerApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<object>> PostData(ShiftWish wish)
+        public async Task<ActionResult<object>> PostData(Group group)
         {
-            if (wish.OpenGroup != null)
-            {
-                _context.Groups.Add(new Group((int)wish.Id, (int)wish.OpenGroup));
-                await _context.SaveChangesAsync();
-                return CreatedAtAction("GetDCShifts", new { id = wish.Id }, wish.OpenGroup);
-            }
-            else
-            {
-                _context.Wishes.Add(wish);
-                await _context.SaveChangesAsync();
-                return CreatedAtAction("GetDCShifts", new { id = wish.Id }, wish);
-            }
+            _context.Groups.Add(new Group(group.Id, group.OpenGroup));
+            await _context.SaveChangesAsync();
+            return CreatedAtAction("GetDCShifts", new { id = group.Id }, group.OpenGroup);
+            //if (wish.OpenGroup != null)
+            //{
+            //    _context.Groups.Add(new Group((int)wish.Id, (int)wish.OpenGroup));
+            //    await _context.SaveChangesAsync();
+            //    return CreatedAtAction("GetDCShifts", new { id = wish.Id }, wish.OpenGroup);
+            //}
+            //else
+            //{
+            //    _context.Wishes.Add(wish);
+            //    await _context.SaveChangesAsync();
+            //    return CreatedAtAction("GetDCShifts", new { id = wish.Id }, wish);
+            //}
         }
 
         // DELETE: api/DCShifts

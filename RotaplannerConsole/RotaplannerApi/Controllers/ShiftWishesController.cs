@@ -77,12 +77,12 @@ namespace RotaplannerApi.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<object>> PostShiftWish(ShiftWish shiftWish)
+        public async Task<ActionResult<ShiftWish>> PostShiftWish(ShiftWish shiftWish)
         {
             _context.Wishes.Add(shiftWish);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetDCShifts", new { id = shiftWish.Id }, shiftWish);
+            return CreatedAtAction("GetWishes", new { id = shiftWish.Id }, shiftWish);
         }
 
         // DELETE: api/ShiftWishes/5

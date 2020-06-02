@@ -15,5 +15,10 @@ namespace RotaplannerApi.Models
             Id = id;
             OpenGroup = openGroup;
         }
+
+        public Group()
+        {
+
+        }
     }
 }
