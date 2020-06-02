@@ -81,23 +81,32 @@ namespace RotaplannerApi.Controllers
                 await _context.SaveChangesAsync();
                 return CreatedAtAction("GetDCShifts", new { id = wish.Id }, wish);
             }
-        } 
+        }
 
-        //// DELETE: api/DCShifts/5
-        //[HttpDelete("{id}")]
-        //public async Task<ActionResult<ShiftWish>> DeleteWish(long id)
-        //{
-        //    var wish = await _context.Wishes.FindAsync(id);
-        //    if (wish == null)
-        //    {
-        //        return NotFound();
-        //    }
+        // DELETE: api/DCShifts
+        [HttpDelete()]
+        public async Task<ActionResult<List<ShiftWish>>> DeleteWishes()
+        {
+            var wishes = _context.Wishes.ToList();
+            _context.Wishes.RemoveRange(_context.Wishes);
+            await _context.SaveChangesAsync();
+            return wishes;
+        }
 
-        //    _context.Wishes.Remove(wish);
-        //    await _context.SaveChangesAsync();
+        //DELETE: api/DCShifts/2
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<ShiftWish>> DeleteWish(long id)
+        {
+            var wish = await _context.Wishes.FindAsync(id);
+            if (wish == null)
+            {
+                return NotFound();
+            }
 
-        //    return wish;
-        //}
+            _context.Wishes.Remove(wish);
+            await _context.SaveChangesAsync();
+            return wish;
+        }
 
         private bool DCShiftsExists(long id)
         {
