@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using System.Diagnostics.CodeAnalysis;
 
 namespace ShiftCalculations
 {
@@ -13,12 +14,12 @@ namespace ShiftCalculations
             CheckDuplicates(wishes);
             dc.Teams.ForEach(t => TeamShiftsOfWeek(t, openingTeam));
             openingTeam++;
-            if (openingTeam > 3)
+            if (openingTeam > dc.Teams.Count - 1)
                 openingTeam = 0;
             dc.RotateTeamsOneWeek();
             dc.Teams.ForEach(t => TeamShiftsOfWeek(t, openingTeam));
             openingTeam++;
-            if (openingTeam > 3)
+            if (openingTeam > dc.Teams.Count - 1)
                 openingTeam = 0;
             dc.RotateTeamsOneWeek();
             dc.Teams.ForEach(t => TeamShiftsOfWeek(t, openingTeam));
@@ -29,7 +30,7 @@ namespace ShiftCalculations
         }
         public List<WorkShift> TeamShiftsOfWeek(Team team, int openingTeam)
         {
-            var status = GetWeekStatus(team, openingTeam);
+            var status = GetWeekStatus(team.TeamNumber, openingTeam, 4);
             var shifts = GetWeekShifts(status, team);
 
             return shifts;
@@ -62,23 +63,35 @@ namespace ShiftCalculations
             }
         }
 
-        private int GetWeekStatus(Team team, int openingTeam)
-            => (team.TeamNumber, openingTeam) switch
-            {
-                (0, 1) => 3,
-                (0, 2) => 2,
-                (0, 3) => 1,
-                (1, 0) => 1,
-                (1, 2) => 3,
-                (1, 3) => 2,
-                (2, 0) => 2,
-                (2, 1) => 1,
-                (2, 3) => 3,
-                (3, 0) => 3,
-                (3, 1) => 2,
-                (3, 2) => 1,
-                (_, _) => 0
-            };
+        //private int GetWeekStatus(Team team, int openingTeam)
+        //    => (team.TeamNumber, openingTeam) switch
+        //    {
+        //        (0, 1) => 3, //kahdella 1, kolmella 2, neljällä 3, viidellä 4
+        //        (0, 2) => 2, //kolmella 1, neljällä 2, viidellä 3
+        //        (0, 3) => 1, //neljällä 1, viidellä 2                           team.count - (open - team)
+        //        (1, 0) => 1, //kahdella 1, kolmella 1, neljällä 1, viidellä 1   (open == 0 => team)
+        //        (1, 2) => 3, //kolmella 2, neljällä 3, viidellä 4               team.count - (open - team)
+        //        (1, 3) => 2, //neljällä 2, viidellä 3                           team.count - (open - team)
+        //        (2, 0) => 2, //kolmella 2, neljällä 2, viidellä 2               (open == 0 => team)
+        //        (2, 1) => 1, //kolmella 1, neljällä 1, viidellä 1               team - open
+        //        (2, 3) => 3, //neljällä 3, viidellä 4                           team.count - (open - team)
+        //        (3, 0) => 3, //neljällä 3, viidellä 3                           (open == 0 => team)
+        //        (3, 1) => 2, //neljällä 2, viidellä 2                           team - open
+        //        (3, 2) => 1, //neljällä 1, viidellä 1                           team - open
+        //        (_, _) => 0
+        //    };
+
+        private int GetWeekStatus(int team, int openingTeam, int groups)
+        {
+            if (openingTeam == 0)
+                return team;
+            if (openingTeam == team)
+                return 0;
+            if (team > openingTeam)
+                return team - openingTeam;
+            return groups - (openingTeam - team);
+
+        }
 
         private List<WorkShift> GetWeekShifts(int status, Team team)
         {
