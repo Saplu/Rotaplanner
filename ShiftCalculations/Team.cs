@@ -7,7 +7,7 @@ namespace ShiftCalculations
     public class Team
     {
         public virtual List<Employee> TeamEmp { get; set; }
-        public int TeamNumber { get; }
+        public int TeamNumber { get; set; }
 
         public Team(int teamNumber, int teachers = 1)
         {
@@ -29,7 +29,7 @@ namespace ShiftCalculations
 
         public Team()
         {
-            TeamNumber = 1;
+            TeamNumber = 0;
             TeamEmp = new List<Employee>();
         }
     }

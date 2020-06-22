@@ -17,6 +17,13 @@ namespace ShiftCalculations
             Teams.ForEach(t => Employees.AddRange(t.TeamEmp));
         }
 
+        public Daycare(List<Team> teams)
+        {
+            Teams = HandleTeamNumbers(teams);
+            Employees = new List<Employee>();
+            Teams.ForEach(t => Employees.AddRange(t.TeamEmp));
+        }
+
         public void RotateTeamsOneWeek()
         {
             foreach (var team in Teams)
@@ -30,6 +37,15 @@ namespace ShiftCalculations
             var dcEmpList = new List<Employee>();
             Teams.ForEach(t => dcEmpList.AddRange(t.TeamEmp));
             Employees = dcEmpList;
+        }
+
+        private List<Team> HandleTeamNumbers(List<Team> teams)
+        {
+            for (int i = 0; i < teams.Count; i++)
+            {
+                teams[i].TeamNumber = i;
+            }
+            return teams;
         }
     }
 }

@@ -129,5 +129,54 @@ namespace UnitTests
             };
             CollectionAssert.AreEqual(expected, actual);
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void ThrowsExceptionOnSimilarWishesWithinTeam()
+        {
+            var dc = new Daycare();
+            var rc = new RotationCalculator();
+            var wishes = new List<Wish>()
+            {
+                new Wish(dc.Employees.Find(e => e.Id == 2), 10, 1),
+                new Wish(dc.Employees.Find(e => e.Id == 1), 11, 1)
+            };
+            rc.DaycareShiftsOfThreeWeeks(dc, 0, wishes);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void ThrowsArgumentExceptionOnCrossTeamDuplicateWish()
+        {
+            var dc = new Daycare();
+            var rc = new RotationCalculator();
+            var wishes = new List<Wish>()
+            {
+                new Wish(dc.Employees.Find(e => e.Id == 2), 10, 1),
+                new Wish(dc.Employees.Find(e => e.Id == 10), 10, 1)
+            };
+            rc.DaycareShiftsOfThreeWeeks(dc, 0, wishes);
+        }
+
+        [TestMethod]
+        public void CalculatesCorrectShiftsForSmallDaycare()
+        {
+            var teams = new List<Team>()
+            {
+                new Team(0, 1),
+                new Team(1, 2)
+            };
+            var dc = new Daycare(teams);
+            var rc = new RotationCalculator();
+            var wishes = new List<Wish>();
+            rc.DaycareShiftsOfThreeWeeks(dc, 0, wishes);
+            var emp0Shifts = dc.Teams[0].TeamEmp[0].Shifts;
+            var emp1Shifts = dc.Teams[0].TeamEmp[1].Shifts;
+            var emp2Shifts = dc.Teams[0].TeamEmp[2].Shifts;
+            var emp3Shifts = dc.Teams[1].TeamEmp[0].Shifts;
+            var emp4Shifts = dc.Teams[1].TeamEmp[1].Shifts;
+            var emp5Shifts = dc.Teams[1].TeamEmp[2].Shifts;
+            //more to come
+        }
     }
 }
