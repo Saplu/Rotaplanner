@@ -12,26 +12,26 @@ namespace ShiftCalculations
         public void DaycareShiftsOfThreeWeeks(Daycare dc, int openingTeam, List<Wish> wishes)
         {
             CheckDuplicates(wishes);
-            dc.Teams.ForEach(t => TeamShiftsOfWeek(t, openingTeam));
+            dc.Teams.ForEach(t => TeamShiftsOfWeek(t, openingTeam, dc.Teams.Count));
             openingTeam++;
             if (openingTeam > dc.Teams.Count - 1)
                 openingTeam = 0;
             dc.RotateTeamsOneWeek();
-            dc.Teams.ForEach(t => TeamShiftsOfWeek(t, openingTeam));
+            dc.Teams.ForEach(t => TeamShiftsOfWeek(t, openingTeam, dc.Teams.Count));
             openingTeam++;
             if (openingTeam > dc.Teams.Count - 1)
                 openingTeam = 0;
             dc.RotateTeamsOneWeek();
-            dc.Teams.ForEach(t => TeamShiftsOfWeek(t, openingTeam));
+            dc.Teams.ForEach(t => TeamShiftsOfWeek(t, openingTeam, dc.Teams.Count));
 
             foreach(var wish in wishes)
                 Switch(dc, wish);
             CheckTeacherSwitches(dc);
         }
-        public List<WorkShift> TeamShiftsOfWeek(Team team, int openingTeam)
+        public List<WorkShift> TeamShiftsOfWeek(Team team, int openingTeam, int teamCount)
         {
-            var status = GetWeekStatus(team.TeamNumber, openingTeam, 4);
-            var shifts = GetWeekShifts(status, team);
+            var status = GetWeekStatus(team.TeamNumber, openingTeam, teamCount);
+            var shifts = GetWeekShifts(status, team, teamCount);
 
             return shifts;
         }
@@ -63,24 +63,6 @@ namespace ShiftCalculations
             }
         }
 
-        //private int GetWeekStatus(Team team, int openingTeam)
-        //    => (team.TeamNumber, openingTeam) switch
-        //    {
-        //        (0, 1) => 3, //kahdella 1, kolmella 2, neljällä 3, viidellä 4
-        //        (0, 2) => 2, //kolmella 1, neljällä 2, viidellä 3
-        //        (0, 3) => 1, //neljällä 1, viidellä 2                           team.count - (open - team)
-        //        (1, 0) => 1, //kahdella 1, kolmella 1, neljällä 1, viidellä 1   (open == 0 => team)
-        //        (1, 2) => 3, //kolmella 2, neljällä 3, viidellä 4               team.count - (open - team)
-        //        (1, 3) => 2, //neljällä 2, viidellä 3                           team.count - (open - team)
-        //        (2, 0) => 2, //kolmella 2, neljällä 2, viidellä 2               (open == 0 => team)
-        //        (2, 1) => 1, //kolmella 1, neljällä 1, viidellä 1               team - open
-        //        (2, 3) => 3, //neljällä 3, viidellä 4                           team.count - (open - team)
-        //        (3, 0) => 3, //neljällä 3, viidellä 3                           (open == 0 => team)
-        //        (3, 1) => 2, //neljällä 2, viidellä 2                           team - open
-        //        (3, 2) => 1, //neljällä 1, viidellä 1                           team - open
-        //        (_, _) => 0
-        //    };
-
         private int GetWeekStatus(int team, int openingTeam, int groups)
         {
             if (openingTeam == 0)
@@ -93,10 +75,10 @@ namespace ShiftCalculations
 
         }
 
-        private List<WorkShift> GetWeekShifts(int status, Team team)
+        private List<WorkShift> GetWeekShifts(int status, Team team, int teamCount)
         {
             var shifts = new List<WorkShift>();
-            var teamShifts = GetTeamShifts(status);
+            var teamShifts = GetTeamShifts(status, teamCount);
 
             for (int i = 0; i < team.TeamEmp.Count; i++)
             {
@@ -110,15 +92,9 @@ namespace ShiftCalculations
             return shifts;
         }
 
-        private List<int> GetTeamShifts(int status) =>
-            status switch
-            {
-                0 => new List<int>() { 0, 4, 8, 0, 4, 8, 0 },
-                1 => new List<int>() { 1, 5, 9, 1, 5, 9, 1 },
-                2 => new List<int>() { 2, 6, 10, 2, 6, 10, 2 },
-                3 => new List<int>() { 3, 7, 11, 3, 7, 11, 3 },
-                _ => throw new ArgumentException("Something weird has happened. Just close the app.")
-            };
+        private List<int> GetTeamShifts(int status, int teamCount) => new List<int>() {
+            status, status + teamCount, status + (teamCount*2),
+            status, status + teamCount, status + (teamCount*2), status};
 
         private void AdjustTeamByWish(Team team, Wish wish)
         {

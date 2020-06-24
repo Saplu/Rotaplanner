@@ -16,7 +16,7 @@ namespace UnitTests
             var dc = new Daycare();
             var rc = new RotationCalculator();
             var actual = new List<WorkShift>();
-            dc.Teams.ForEach(d => actual.AddRange(rc.TeamShiftsOfWeek(d, 0)));
+            dc.Teams.ForEach(d => actual.AddRange(rc.TeamShiftsOfWeek(d, 0, dc.Teams.Count)));
             var expected = new List<WorkShift>()
             {
                 new WorkShift(ShiftEnum.Open),
@@ -176,7 +176,29 @@ namespace UnitTests
             var emp3Shifts = dc.Teams[1].TeamEmp[0].Shifts;
             var emp4Shifts = dc.Teams[1].TeamEmp[1].Shifts;
             var emp5Shifts = dc.Teams[1].TeamEmp[2].Shifts;
-            //more to come
+
+            var expShifts1 = new List<WorkShift>()
+            {
+                new WorkShift(ShiftEnum.Open),
+                new WorkShift(ShiftEnum.Third),
+                new WorkShift(ShiftEnum.FirstMiddle),
+                new WorkShift(ShiftEnum.Second, true),
+                new WorkShift(ShiftEnum.Third),
+
+                new WorkShift(ShiftEnum.SecondMiddle),
+                new WorkShift(ShiftEnum.Second),
+                new WorkShift(ShiftEnum.Fourth),
+                new WorkShift(ShiftEnum.SecondMiddle),
+                new WorkShift(ShiftEnum.Open),
+
+                new WorkShift(ShiftEnum.Third),
+                new WorkShift(ShiftEnum.FirstMiddle),
+                new WorkShift(ShiftEnum.Open),
+                new WorkShift(ShiftEnum.Third),
+                new WorkShift(ShiftEnum.FirstMiddle)
+            };
+
+            CollectionAssert.AreEqual(expShifts1, emp1Shifts);
         }
     }
 }

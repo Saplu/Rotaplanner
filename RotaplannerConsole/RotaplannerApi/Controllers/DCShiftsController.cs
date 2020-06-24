@@ -21,9 +21,14 @@ namespace RotaplannerApi.Controllers
 
         public DCShiftsController(ShiftContext context)
         {
+            var teams = new List<Team>()
+            {
+                new Team(0, 1),
+                new Team(1, 2)
+            };
             _context = context;
             _wishes = new List<Wish>();
-            _dc = new Daycare();
+            _dc = new Daycare(teams);
             _calc = new RotationCalculator();
         }
 
