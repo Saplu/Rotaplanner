@@ -206,23 +206,23 @@ namespace ShiftCalculations
         private void CheckPlantimeAvailable(Employee emp, Daycare dc)
         {
             var morningList = new List<int>();
-            emp.Shifts.ForEach(s => morningList.Add(Convert.ToInt32(s.Shift)));
+            emp.Shifts.ForEach(s => morningList.Add(s.Shift));
             var w1 = morningList.GetRange(1, 3).IndexOf(morningList.GetRange(1, 3).Min()) + 1;
             var w2 = morningList.GetRange(6, 3).IndexOf(morningList.GetRange(6, 3).Min()) + 6;
             var w3 = morningList.GetRange(11, 3).IndexOf(morningList.GetRange(11, 3).Min()) + 11;
-            if (morningList[w1] >= 4)
+            if (morningList[w1] >= dc.Teams.Count)
             {
-                var wish = new Wish(emp, 3, w1);
+                var wish = new Wish(emp, dc.Teams.Count - 1, w1);
                 Switch(dc, wish);
             }
-            if (morningList[w2] >= 4)
+            if (morningList[w2] >= dc.Teams.Count)
             {
-                var wish = new Wish(emp, 3, w2);
+                var wish = new Wish(emp, dc.Teams.Count - 1, w2);
                 Switch(dc, wish);
             }
-            if (morningList[w3] >= 4)
+            if (morningList[w3] >= dc.Teams.Count)
             {
-                var wish = new Wish(emp, 3, w3);
+                var wish = new Wish(emp, dc.Teams.Count - 1, w3);
                 Switch(dc, wish);
             }
         }
