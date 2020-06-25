@@ -6,9 +6,7 @@ namespace ShiftCalculations
 {
     public class WorkShift
     {
-        //ShiftEnum _shift;
         public bool Locked { get; set; } = false;
-        //public ShiftEnum Shift { get => _shift; set => _shift = value; }
         public int Shift { get; set; }
 
         public WorkShift(int shift)

@@ -170,6 +170,8 @@ namespace ShiftCalculations
                     list.Add(i);
                 }
             }
+            var sorter = GetSorterValue(wanted, teamCount * 3);
+            list = list.OrderBy(n => Math.Abs(sorter - n)).ToList();
             return list;
         }
 
@@ -239,6 +241,13 @@ namespace ShiftCalculations
             {
                 throw new ArgumentException("Duplicate wishes");
             }
+        }
+
+        private double GetSorterValue(int wanted, int empCount)
+        {
+            if (wanted < empCount / 6) return wanted - 0.1;
+            if (wanted >= empCount / 6 * 5) return wanted + 0.1;
+            else return wanted;
         }
     }
 }

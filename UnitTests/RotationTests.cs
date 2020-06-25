@@ -188,14 +188,14 @@ namespace UnitTests
                 new WorkShift(5),
                 new WorkShift(1),
                 new WorkShift(3),
-                new WorkShift(5),
+                new WorkShift(4, true),
                 new WorkShift(0),
 
                 new WorkShift(2),
                 new WorkShift(4),
                 new WorkShift(0),
                 new WorkShift(2),
-                new WorkShift(4)
+                new WorkShift(5)
             };
 
             CollectionAssert.AreEqual(expShifts1, emp1Shifts);

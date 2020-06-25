@@ -24,7 +24,10 @@ namespace RotaplannerApi.Controllers
             var teams = new List<Team>()
             {
                 new Team(0, 1),
-                new Team(1, 2)
+                new Team(1, 2),
+                new Team(2, 1),
+                new Team(3, 1),
+                new Team(4, 1)
             };
             _context = context;
             _wishes = new List<Wish>();
@@ -41,7 +44,7 @@ namespace RotaplannerApi.Controllers
                 foreach(var item in _context.Wishes)
                 {
                     var emp = _dc.Employees.Find(e => e.Id == item.EmpId);
-                    _wishes.Add(new Wish(emp, (int)item.Shift, (int)item.Day));
+                    _wishes.Add(new Wish(emp, item.Shift, item.Day));
                 }
                 var group = 0;
                 foreach (var item in _context.Groups)

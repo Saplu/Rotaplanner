@@ -21,13 +21,14 @@ namespace ShiftCalculations
             _id = id;
             _status = status;
             _shifts = new List<WorkShift>();
-            if (id <= 2)
-                _team = 0;
-            else if (id <= 5)
-                _team = 1;
-            else if (id <= 8)
-                _team = 2;
-            else _team = 3;
+            _team = Convert.ToInt32(Math.Floor((decimal)id / 3));
+            //if (id <= 2)
+            //    _team = 0;
+            //else if (id <= 5)
+            //    _team = 1;
+            //else if (id <= 8)
+            //    _team = 2;
+            //else _team = 3;
         }
 
         public override bool Equals(object obj)
