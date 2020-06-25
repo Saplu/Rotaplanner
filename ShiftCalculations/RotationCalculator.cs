@@ -98,10 +98,10 @@ namespace ShiftCalculations
 
         private void AdjustTeamByWish(Team team, Wish wish, int empCount)
         {
-            var teamFirst = team.TeamEmp.FindIndex(e => Convert.ToInt32(e.Shifts[wish.Day].Shift) <= (empCount / 3 - 1));
-            var teamLast = team.TeamEmp.FindIndex(e => Convert.ToInt32(e.Shifts[wish.Day].Shift) >= (empCount / 3 * 2));
-            var teamMiddle = team.TeamEmp.FindIndex(e => Convert.ToInt32(e.Shifts[wish.Day].Shift) >= (empCount / 3) &&
-            Convert.ToInt32(e.Shifts[wish.Day].Shift) <= (empCount / 3 * 2 - 1));
+            var teamFirst = team.TeamEmp.FindIndex(e => e.Shifts[wish.Day].Shift <= (empCount / 3 - 1));
+            var teamLast = team.TeamEmp.FindIndex(e => e.Shifts[wish.Day].Shift >= (empCount / 3 * 2));
+            var teamMiddle = team.TeamEmp.FindIndex(e => e.Shifts[wish.Day].Shift >= (empCount / 3) &&
+            e.Shifts[wish.Day].Shift <= (empCount / 3 * 2 - 1));
             var wisher = team.TeamEmp.FindIndex(e => e == wish.Employee);
             if (wish.WantedShift <= (empCount / 3 - 1) && team.TeamEmp[teamFirst] != wish.Employee)
             {
