@@ -6,18 +6,19 @@ namespace ShiftCalculations
 {
     public class WorkShift
     {
-        ShiftEnum _shift;
+        //ShiftEnum _shift;
         public bool Locked { get; set; } = false;
-        public ShiftEnum Shift { get => _shift; set => _shift = value; }
+        //public ShiftEnum Shift { get => _shift; set => _shift = value; }
+        public int Shift { get; set; }
 
-        public WorkShift(ShiftEnum shift)
+        public WorkShift(int shift)
         {
-            _shift = shift;
+            Shift = shift;
         }
 
-        public WorkShift(ShiftEnum shift, bool locked)
+        public WorkShift(int shift, bool locked)
         {
-            _shift = shift;
+            Shift = shift;
             Locked = locked;
         }
 
@@ -31,7 +32,7 @@ namespace ShiftCalculations
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(_shift, Locked, Shift);
+            return HashCode.Combine(Locked, Shift);
         }
     }
 }
