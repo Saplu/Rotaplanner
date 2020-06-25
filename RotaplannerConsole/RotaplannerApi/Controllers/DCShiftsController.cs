@@ -16,22 +16,30 @@ namespace RotaplannerApi.Controllers
     {
         private readonly ShiftContext _context;
         private List<Wish> _wishes;
+        private List<Daycare> _daycares;
         private Daycare _dc;
         private RotationCalculator _calc;
 
         public DCShiftsController(ShiftContext context)
         {
-            var teams = new List<Team>()
-            {
-                new Team(0, 1),
-                new Team(1, 2),
-                new Team(2, 1),
-                new Team(3, 1),
-                new Team(4, 1)
-            };
             _context = context;
+            _daycares = new List<Daycare>()
+            {
+                new Daycare(new List<Team>()
+                {
+                    new Team(0, 2),
+                    new Team(1),
+                    new Team(2, 2),
+                    new Team(3)
+                }),
+                new Daycare(new List<Team>()
+                {
+                    new Team(0, 2),
+                    new Team(1)
+                })
+            };
             _wishes = new List<Wish>();
-            _dc = new Daycare(teams);
+            _dc = _daycares[0];
             _calc = new RotationCalculator();
         }
 
@@ -80,18 +88,6 @@ namespace RotaplannerApi.Controllers
             _context.Groups.Add(new Group(group.Id, group.OpenGroup));
             await _context.SaveChangesAsync();
             return CreatedAtAction("GetDCShifts", new { id = group.Id }, group.OpenGroup);
-            //if (wish.OpenGroup != null)
-            //{
-            //    _context.Groups.Add(new Group((int)wish.Id, (int)wish.OpenGroup));
-            //    await _context.SaveChangesAsync();
-            //    return CreatedAtAction("GetDCShifts", new { id = wish.Id }, wish.OpenGroup);
-            //}
-            //else
-            //{
-            //    _context.Wishes.Add(wish);
-            //    await _context.SaveChangesAsync();
-            //    return CreatedAtAction("GetDCShifts", new { id = wish.Id }, wish);
-            //}
         }
 
         // DELETE: api/DCShifts
