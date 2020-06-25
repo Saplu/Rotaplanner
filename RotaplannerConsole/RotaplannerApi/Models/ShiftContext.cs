@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using RotaplannerApi.Models;
 
 namespace RotaplannerApi.Models
 {
@@ -14,5 +15,6 @@ namespace RotaplannerApi.Models
 
         public DbSet<ShiftWish> Wishes { get; set; }
         public DbSet<Group> Groups { get; set; }
+        public DbSet<DaycareSelector> DaycareSelector { get; set; }
     }
 }

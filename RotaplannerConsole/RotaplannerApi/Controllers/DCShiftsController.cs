@@ -49,16 +49,15 @@ namespace RotaplannerApi.Controllers
         {
             try
             {
+                if (_context.DaycareSelector.Count() > 0)
+                    _dc = _daycares[_context.DaycareSelector.Last().Dc];
                 foreach(var item in _context.Wishes)
                 {
                     var emp = _dc.Employees.Find(e => e.Id == item.EmpId);
                     _wishes.Add(new Wish(emp, item.Shift, item.Day));
                 }
                 var group = 0;
-                foreach (var item in _context.Groups)
-                {
-                    group = item.OpenGroup;
-                }
+                group = _context.Groups.Last().OpenGroup;
                 _calc.DaycareShiftsOfThreeWeeks(_dc, group, _wishes);
                 var allShifts = "";
                 foreach (var team in _dc.Teams)
