@@ -27,19 +27,28 @@ namespace RotaplannerApi.Controllers
         //    return await _context.DaycareSelector.ToListAsync();
         //}
 
-        //// GET: api/DaycareSelector/5
-        //[HttpGet("{id}")]
-        //public async Task<ActionResult<DaycareSelector>> GetDaycareSelector(int id)
-        //{
-        //    var daycareSelector = await _context.DaycareSelector.FindAsync(id);
-
-        //    if (daycareSelector == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return daycareSelector;
-        //}
+        // GET: api/DaycareSelector/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<int[]>> GetDaycareSelector(int id)
+        {
+            try
+            {
+                if (_context.Daycares[id] != null)
+                {
+                    var value = new int[_context.Daycares[id].Teams.Count];
+                    for (int i = 0; i < value.Length; i++)
+                    {
+                        value[i] = i;
+                    }
+                    return value;
+                }
+                else return NotFound();
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                return NotFound();
+            }
+        }
 
         //// PUT: api/DaycareSelector/5
         //// To protect from overposting attacks, please enable the specific properties you want to bind to, for
