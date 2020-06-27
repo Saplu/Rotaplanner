@@ -23,23 +23,7 @@ namespace RotaplannerApi.Controllers
         public DCShiftsController(ShiftContext context)
         {
             _context = context;
-            //_daycares = new List<Daycare>()
-            //{
-            //    new Daycare(new List<Team>()
-            //    {
-            //        new Team(0, 2),
-            //        new Team(1),
-            //        new Team(2, 2),
-            //        new Team(3)
-            //    }),
-            //    new Daycare(new List<Team>()
-            //    {
-            //        new Team(0, 2),
-            //        new Team(1)
-            //    })
-            //};
             _wishes = new List<Wish>();
-            //_dc = _daycares[0];
             _dc = _context.Daycares[0];
             _calc = new RotationCalculator();
         }
@@ -61,6 +45,43 @@ namespace RotaplannerApi.Controllers
                 var group = 0;
                 if (_context.Groups.Count() > 0)
                     group = _context.Groups.Last().OpenGroup;
+                _calc.DaycareShiftsOfThreeWeeks(_dc, group, _wishes);
+                var allShifts = "";
+                foreach (var team in _dc.Teams)
+                {
+                    foreach (var emp in team.TeamEmp)
+                    {
+                        var shifts = emp.Id.ToString() + " " + emp.Status.ToString() + ": ";
+                        foreach (var shift in emp.Shifts)
+                        {
+                            var num = Convert.ToInt32(shift.Shift);
+                            shifts += num + ((num > 9) ? " " : "  ");
+                        }
+                        allShifts += ("\n" + shifts);
+                    }
+                }
+                return allShifts;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
+
+        [HttpGet("{id}")]
+        public async Task<string> GetDCShifts(int id)
+        {
+            try
+            {
+                _dc = _context.Daycares[id];
+                foreach (var item in _context.Wishes)
+                {
+                    var emp = _dc.Employees.Find(e => e.Id == item.EmpId);
+                    _wishes.Add(new Wish(emp, item.Shift, item.Day));
+                }
+                var group = 0;
+                //if (_context.Groups.Count() > 0)
+                //    group = _context.Groups.Last().OpenGroup;
                 _calc.DaycareShiftsOfThreeWeeks(_dc, group, _wishes);
                 var allShifts = "";
                 foreach (var team in _dc.Teams)

@@ -20,12 +20,17 @@ namespace RotaplannerApi.Controllers
             _context = context;
         }
 
-        //// GET: api/DaycareSelector
-        //[HttpGet]
-        //public async Task<ActionResult<IEnumerable<DaycareSelector>>> GetDaycareSelector()
-        //{
-        //    return await _context.DaycareSelector.ToListAsync();
-        //}
+        // GET: api/DaycareSelector
+        [HttpGet]
+        public async Task<ActionResult<int[]>> GetDaycareSelector()
+        {
+            var value = new int[_context.Daycares[0].Teams.Count];
+            for (int i = 0; i < value.Length; i++)
+            {
+                value[i] = i;
+            }
+            return value;
+        }
 
         // GET: api/DaycareSelector/5
         [HttpGet("{id}")]

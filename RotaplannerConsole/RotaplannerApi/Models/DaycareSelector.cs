@@ -9,5 +9,6 @@ namespace RotaplannerApi.Models
     {
         public int Id { get; set; }
         public int Dc { get; set; }
+
     }
 }

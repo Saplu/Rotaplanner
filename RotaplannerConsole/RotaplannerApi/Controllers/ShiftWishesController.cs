@@ -102,6 +102,15 @@ namespace RotaplannerApi.Controllers
             return shiftWish;
         }
 
+        [HttpDelete]
+        public async Task<ActionResult<List<ShiftWish>>> DeleteWishes()
+        {
+            var wishes = _context.Wishes.ToList();
+            _context.Wishes.RemoveRange(_context.Wishes);
+            await _context.SaveChangesAsync();
+            return wishes;
+        }
+
         private bool ShiftWishExists(long id)
         {
             return _context.Wishes.Any(e => e.Id == id);
