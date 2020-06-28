@@ -11,6 +11,7 @@ namespace RotaplannerApi.Models
     public class ShiftContext : DbContext
     {
         public List<Daycare> Daycares { get; set; }
+        public int CurrentDc { get; set; }
         public ShiftContext(DbContextOptions<ShiftContext> options) : base(options)
         {
             Daycares = new List<Daycare>()

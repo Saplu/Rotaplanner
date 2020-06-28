@@ -22,13 +22,16 @@ namespace RotaplannerApi.Controllers
 
         // GET: api/DaycareSelector
         [HttpGet]
-        public async Task<ActionResult<int[]>> GetDaycareSelector()
+        public async Task<ActionResult<int>> GetDaycareSelector()
         {
-            var value = new int[_context.Daycares[0].Teams.Count];
-            for (int i = 0; i < value.Length; i++)
-            {
-                value[i] = i;
-            }
+            var value = 0;
+            if (_context.DaycareSelector.Count() > 0)
+                value = _context.DaycareSelector.Last().Dc;
+            //var value = new int[_context.Daycares[_context.CurrentDc].Teams.Count];
+            //for (int i = 0; i < value.Length; i++)
+            //{
+            //    value[i] = i;
+            //}
             return value;
         }
 
@@ -36,6 +39,7 @@ namespace RotaplannerApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<int[]>> GetDaycareSelector(int id)
         {
+            _context.CurrentDc = id;
             try
             {
                 if (_context.Daycares[id] != null)
@@ -93,6 +97,7 @@ namespace RotaplannerApi.Controllers
         [HttpPost]
         public async Task<int> PostDaycareSelector(DaycareSelector daycareSelector)
         {
+            _context.CurrentDc = daycareSelector.Dc;
             _context.DaycareSelector.Add(daycareSelector);
             await _context.SaveChangesAsync();
 

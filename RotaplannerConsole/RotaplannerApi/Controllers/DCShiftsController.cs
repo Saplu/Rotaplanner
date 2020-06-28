@@ -34,9 +34,10 @@ namespace RotaplannerApi.Controllers
         {
             try
             {
+                var numb = _context.DaycareSelector.Count();
                 if (_context.DaycareSelector.Count() > 0)
                     _dc = _context.Daycares[_context.DaycareSelector.Last().Dc];
-                    //_dc = _daycares[_context.DaycareSelector.Last().Dc];
+                else _dc = _context.Daycares[0];
                 foreach(var item in _context.Wishes)
                 {
                     var emp = _dc.Employees.Find(e => e.Id == item.EmpId);
@@ -73,15 +74,16 @@ namespace RotaplannerApi.Controllers
         {
             try
             {
-                _dc = _context.Daycares[id];
+                var numb = _context.DaycareSelector.Count();
+                if (_context.DaycareSelector.Count() > 0)
+                    _dc = _context.Daycares[_context.DaycareSelector.Last().Dc];
+                else _dc = _context.Daycares[0];
                 foreach (var item in _context.Wishes)
                 {
                     var emp = _dc.Employees.Find(e => e.Id == item.EmpId);
                     _wishes.Add(new Wish(emp, item.Shift, item.Day));
                 }
                 var group = 0;
-                //if (_context.Groups.Count() > 0)
-                //    group = _context.Groups.Last().OpenGroup;
                 _calc.DaycareShiftsOfThreeWeeks(_dc, group, _wishes);
                 var allShifts = "";
                 foreach (var team in _dc.Teams)
@@ -115,12 +117,12 @@ namespace RotaplannerApi.Controllers
 
         // DELETE: api/DCShifts
         [HttpDelete()]
-        public async Task<ActionResult<List<ShiftWish>>> DeleteWishes()
+        public async Task<ActionResult<List<Group>>> DeleteGroups()
         {
-            var wishes = _context.Wishes.ToList();
-            _context.Wishes.RemoveRange(_context.Wishes);
+            var groups = _context.Groups.ToList();
+            _context.Groups.RemoveRange(_context.Groups);
             await _context.SaveChangesAsync();
-            return wishes;
+            return groups;
         }
 
         //DELETE: api/DCShifts/2
