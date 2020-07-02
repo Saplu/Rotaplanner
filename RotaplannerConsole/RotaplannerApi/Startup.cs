@@ -26,7 +26,7 @@ namespace RotaplannerApi
                 options.AddPolicy(name: MyAllowSpecificOrigins,
                     builder =>
                     {
-                        builder.WithOrigins("http://localhost:3000")
+                        builder.WithOrigins("*")
                         .AllowAnyHeader()
                         .AllowAnyMethod();
                     });
@@ -51,7 +51,7 @@ namespace RotaplannerApi
 
             app.UseRouting();
 
-            //app.UseCors(MyAllowSpecificOrigins);
+            app.UseCors(MyAllowSpecificOrigins);
 
             app.UseAuthorization();
 
