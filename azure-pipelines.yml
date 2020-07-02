@@ -40,4 +40,4 @@ steps:
     azureSubscription: 'Azure subscription 1(3cad1b87-75f7-4c52-a403-50c79c551795)'
     appType: 'webApp'
     WebAppName: 'Rotaplanner'
-    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    packageForLinux: '$(build.artifactStagingDirectory)\WebApp.zip'
