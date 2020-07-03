@@ -99,7 +99,7 @@ namespace RotaplannerApi.Controllers
                         allShifts += ("\n" + shifts);
                     }
                 }
-                return "asdasdsad";
+                return allShifts;
             }
             catch (Exception ex)
             {
