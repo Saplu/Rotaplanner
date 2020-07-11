@@ -47,11 +47,11 @@ namespace DataAccess
             await _collection.InsertOneAsync(bsonWish);
         }
 
-        public async Task<List<DTOWish>> GetWishes(string set)
+        public async Task<List<DTOWish>> GetWishes(string set, string creator)
         {
             var allWishes = new List<BsonDocument>();
             await _collection.Find(new BsonDocument()).ForEachAsync(w => allWishes.Add(w));
-            var correctWishes = allWishes.Where(w => w.ElementAt(5).Value == set).ToList();
+            var correctWishes = allWishes.Where(w => w.ElementAt(5).Value == set && w.ElementAt(4).Value == creator).ToList();
             var DTOWishes = ConvertToDTOWishes(correctWishes);
             return DTOWishes;
         }

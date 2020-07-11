@@ -9,16 +9,16 @@ namespace ShiftCalculations
     public class DbConnectionHandler
     {
         readonly DataAccess.Mongo db = new DataAccess.Mongo();
-        public async Task<List<Wish>> GetWishes(string set, List<Employee> employees)
+        public async Task<List<Wish>> GetWishes(string set, string creator, List<Employee> employees)
         {
-            var dbWishes = await db.GetWishes(set);
+            var dbWishes = await db.GetWishes(set, creator);
             var wishes = ConvertDTOToWish(dbWishes, employees);
             return wishes;
         }
 
-        public async Task<List<DTOWish>> GetWishes(string set)
+        public async Task<List<DTOWish>> GetWishes(string set, string creator)
         {
-            var dbWishes = await db.GetWishes(set);
+            var dbWishes = await db.GetWishes(set, creator);
             return dbWishes;
         }
 

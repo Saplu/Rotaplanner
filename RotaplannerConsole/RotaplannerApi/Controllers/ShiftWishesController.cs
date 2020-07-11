@@ -33,11 +33,11 @@ namespace RotaplannerApi.Controllers
             return shiftWishes;
         }
 
-        // GET: api/ShiftWishes/5
-        [HttpGet("{set}")]
-        public async Task<ActionResult<IEnumerable<ShiftWish>>> GetShiftWish(string set)
+        // GET: api/ShiftWishes/string/string
+        [HttpGet("{creator}/{set}")]
+        public async Task<ActionResult<IEnumerable<ShiftWish>>> GetShiftWish(string set, string creator)
         {
-            var dtoWishes = await _dbConn.GetWishes(set);
+            var dtoWishes = await _dbConn.GetWishes(set, creator);
             var shiftWishes = ConvertDTOToShiftWish(dtoWishes);
             return shiftWishes;
         }

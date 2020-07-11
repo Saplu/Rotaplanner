@@ -22,6 +22,8 @@ namespace RotaplannerApi.Models
             Day = day;
             Creator = creator;
             Set = set;
+            var rand = new Random();
+            Id = rand.Next();
         }
 
         public ShiftWish()
