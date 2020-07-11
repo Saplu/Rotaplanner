@@ -18,9 +18,9 @@ namespace ShiftCalculations
 
         public async Task DaycareShiftsOfThreeWeeks(Daycare dc, int openingTeam, List<Wish> wishes)
         {
-            var dbWishes = await _dbConn.GetWishes("default", "saplu", dc.Employees);
+            //var dbWishes = await _dbConn.GetWishes("default", "saplu", dc.Employees);
 
-            CheckDuplicates(dbWishes);
+            CheckDuplicates(wishes);
             dc.Teams.ForEach(t => TeamShiftsOfWeek(t, openingTeam, dc.Teams.Count));
             openingTeam++;
             if (openingTeam > dc.Teams.Count - 1)
@@ -33,7 +33,7 @@ namespace ShiftCalculations
             dc.RotateTeamsOneWeek();
             dc.Teams.ForEach(t => TeamShiftsOfWeek(t, openingTeam, dc.Teams.Count));
 
-            foreach(var wish in dbWishes)
+            foreach(var wish in wishes)
                 Switch(dc, wish);
             CheckTeacherSwitches(dc);
         }

@@ -18,6 +18,7 @@ namespace RotaplannerApi.Controllers
         private List<Wish> _wishes;
         private Daycare _dc;
         private RotationCalculator _calc;
+        private DbConnectionHandler _dbConn = new DbConnectionHandler();
 
         public DCShiftsController(ShiftContext context)
         {
@@ -68,22 +69,16 @@ namespace RotaplannerApi.Controllers
             }
         }
 
-        [HttpGet("{id}")]
-        public async Task<string> GetDCShifts(int id)
+        [HttpGet("{id}/{group}/{creator}/{set}")]
+        public async Task<string> GetDCShifts(int id, int group, string creator, string set)
         {
             try
             {
-                var numb = _context.DaycareSelector.Count();
-                if (_context.DaycareSelector.Count() > 0)
-                    _dc = _context.Daycares[_context.DaycareSelector.Last().Dc];
-                else _dc = _context.Daycares[0];
-                foreach (var item in _context.Wishes)
-                {
-                    var emp = _dc.Employees.Find(e => e.Id == item.EmpId);
-                    _wishes.Add(new Wish(emp, item.Shift, item.Day));
-                }
-                var group = 0;
-                await _calc.DaycareShiftsOfThreeWeeks(_dc, group, _wishes);
+                _dc = _context.Daycares[id];
+                var dtoWishes = await _dbConn.GetWishes(set, creator);
+                var wishes = ConvertDTOToWish(dtoWishes, _dc);
+
+                await _calc.DaycareShiftsOfThreeWeeks(_dc, group, wishes);
                 var allShifts = "";
                 foreach (var team in _dc.Teams)
                 {
@@ -142,6 +137,13 @@ namespace RotaplannerApi.Controllers
         private bool DCShiftsExists(long id)
         {
             return _context.Wishes.Any(e => e.Id == id);
+        }
+
+        private List<Wish> ConvertDTOToWish(List<DataTransfer.DTOWish> dtoWishes, Daycare dc)
+        {
+            var list = new List<Wish>();
+            dtoWishes.ForEach(w => list.Add(new Wish(dc.Employees.Find(e => e.Id == w.EmpId), w.Shift, w.Day)));
+            return list;
         }
     }
 }
