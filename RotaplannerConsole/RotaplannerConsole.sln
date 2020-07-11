@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShiftCalculations", "..\Shi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "..\UnitTests\UnitTests.csproj", "{7BB0C469-71C8-4AEA-827F-025425F812FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RotaplannerApi", "RotaplannerApi\RotaplannerApi.csproj", "{FA95FD73-AFAC-4DA3-A19A-B218C0315A3E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RotaplannerApi", "RotaplannerApi\RotaplannerApi.csproj", "{FA95FD73-AFAC-4DA3-A19A-B218C0315A3E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{44902157-3362-437C-AF49-32DB0BA328F8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{FA95FD73-AFAC-4DA3-A19A-B218C0315A3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA95FD73-AFAC-4DA3-A19A-B218C0315A3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA95FD73-AFAC-4DA3-A19A-B218C0315A3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44902157-3362-437C-AF49-32DB0BA328F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44902157-3362-437C-AF49-32DB0BA328F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44902157-3362-437C-AF49-32DB0BA328F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44902157-3362-437C-AF49-32DB0BA328F8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
