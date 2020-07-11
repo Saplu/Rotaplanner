@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\ShiftCalculations\ShiftCalculations.csproj" />
+    <ProjectReference Include="..\DataTransfer\DataTransfer.csproj" />
   </ItemGroup>
 
 </Project>

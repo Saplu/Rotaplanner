@@ -46,7 +46,7 @@ namespace RotaplannerApi.Controllers
                 var group = 0;
                 if (_context.Groups.Count() > 0)
                     group = _context.Groups.Last().OpenGroup;
-                _calc.DaycareShiftsOfThreeWeeks(_dc, group, _wishes);
+                await _calc.DaycareShiftsOfThreeWeeks(_dc, group, _wishes);
                 var allShifts = "";
                 foreach (var team in _dc.Teams)
                 {
@@ -84,7 +84,7 @@ namespace RotaplannerApi.Controllers
                     _wishes.Add(new Wish(emp, item.Shift, item.Day));
                 }
                 var group = 0;
-                _calc.DaycareShiftsOfThreeWeeks(_dc, group, _wishes);
+                await _calc.DaycareShiftsOfThreeWeeks(_dc, group, _wishes);
                 var allShifts = "";
                 foreach (var team in _dc.Teams)
                 {

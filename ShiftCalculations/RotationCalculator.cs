@@ -3,15 +3,25 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using System.Diagnostics.CodeAnalysis;
+using DataTransfer;
+using System.Threading.Tasks;
 
 namespace ShiftCalculations
 {
     public class RotationCalculator
     {
-
-        public void DaycareShiftsOfThreeWeeks(Daycare dc, int openingTeam, List<Wish> wishes)
+        private DbConnectionHandler _dbConn = new DbConnectionHandler();
+        public RotationCalculator()
         {
-            CheckDuplicates(wishes);
+
+        }
+
+        public async Task DaycareShiftsOfThreeWeeks(Daycare dc, int openingTeam, List<Wish> wishes)
+        {
+            var db = new DataAccess.Mongo();
+            var w = await _dbConn.GetWishes("notdefault", dc.Employees);
+
+            CheckDuplicates(w);
             dc.Teams.ForEach(t => TeamShiftsOfWeek(t, openingTeam, dc.Teams.Count));
             openingTeam++;
             if (openingTeam > dc.Teams.Count - 1)
@@ -24,7 +34,7 @@ namespace ShiftCalculations
             dc.RotateTeamsOneWeek();
             dc.Teams.ForEach(t => TeamShiftsOfWeek(t, openingTeam, dc.Teams.Count));
 
-            foreach(var wish in wishes)
+            foreach(var wish in w)
                 Switch(dc, wish);
             CheckTeacherSwitches(dc);
         }
