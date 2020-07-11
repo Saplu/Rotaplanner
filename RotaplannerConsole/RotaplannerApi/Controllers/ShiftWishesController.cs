@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RotaplannerApi.Models;
 using System.Text.Json;
+using ShiftCalculations;
+using DataTransfer;
 
 namespace RotaplannerApi.Controllers
 {
@@ -15,6 +17,7 @@ namespace RotaplannerApi.Controllers
     public class ShiftWishesController : ControllerBase
     {
         private readonly ShiftContext _context;
+        private DbConnectionHandler _dbConn = new DbConnectionHandler();
 
         public ShiftWishesController(ShiftContext context)
         {
@@ -25,21 +28,18 @@ namespace RotaplannerApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ShiftWish>>> GetWishes()
         {
-            return await _context.Wishes.ToListAsync();
+            var dtoWishes = await _dbConn.GetWishes();
+            var shiftWishes = ConvertDTOToShiftWish(dtoWishes);
+            return shiftWishes;
         }
 
         // GET: api/ShiftWishes/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<ShiftWish>> GetShiftWish(long id)
+        [HttpGet("{set}")]
+        public async Task<ActionResult<IEnumerable<ShiftWish>>> GetShiftWish(string set)
         {
-            var shiftWish = await _context.Wishes.FindAsync(id);
-
-            if (shiftWish == null)
-            {
-                return NotFound();
-            }
-
-            return shiftWish;
+            var dtoWishes = await _dbConn.GetWishes(set);
+            var shiftWishes = ConvertDTOToShiftWish(dtoWishes);
+            return shiftWishes;
         }
 
         // PUT: api/ShiftWishes/5
@@ -78,12 +78,12 @@ namespace RotaplannerApi.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<ShiftWish>> PostShiftWish(ShiftWish shiftWish)
+        public async Task PostShiftWish(ShiftWish shiftWish)
         {
-            _context.Wishes.Add(shiftWish);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetWishes", new { id = shiftWish.Id }, shiftWish);
+            var DTOWish = ConvertToDTO(shiftWish);
+            //_context.Wishes.Add(shiftWish);
+            //await _context.SaveChangesAsync();
+            await _dbConn.PostWish(DTOWish);
         }
 
         // DELETE: api/ShiftWishes/5
@@ -114,6 +114,19 @@ namespace RotaplannerApi.Controllers
         private bool ShiftWishExists(long id)
         {
             return _context.Wishes.Any(e => e.Id == id);
+        }
+
+        private List<ShiftWish> ConvertDTOToShiftWish(List<DTOWish> dtoWishes)
+        {
+            var list = new List<ShiftWish>();
+            dtoWishes.ForEach(w => list.Add(new ShiftWish(w.EmpId, w.Shift, w.Day, w.Creator, w.Set)));
+            return list;
+        }
+
+        private DTOWish ConvertToDTO(ShiftWish wish)
+        {
+            var DTOWish = new DTOWish(wish.EmpId, wish.Shift, wish.Day, wish.Creator, wish.Set);
+            return DTOWish;
         }
     }
 }

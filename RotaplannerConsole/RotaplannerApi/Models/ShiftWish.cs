@@ -12,5 +12,21 @@ namespace RotaplannerApi.Models
         public int EmpId { get; set; }
         public int Shift { get; set; }
         public int Day { get; set; }
+        public string Creator { get; set; }
+        public string Set { get; set; }
+
+        public ShiftWish(int empId, int shift, int day, string creator, string set)
+        {
+            EmpId = empId;
+            Shift = shift;
+            Day = day;
+            Creator = creator;
+            Set = set;
+        }
+
+        public ShiftWish()
+        {
+
+        }
     }
 }

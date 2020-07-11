@@ -56,6 +56,14 @@ namespace DataAccess
             return DTOWishes;
         }
 
+        public async Task<List<DTOWish>> GetWishes()
+        {
+            var allWishes = new List<BsonDocument>();
+            await _collection.Find(new BsonDocument()).ForEachAsync(w => allWishes.Add(w));
+            var DTOWishes = ConvertToDTOWishes(allWishes);
+            return DTOWishes;
+        }
+
         private List<DTOWish> ConvertToDTOWishes(List<BsonDocument> correctWishes)
         {
             var wishes = new List<DTOWish>();

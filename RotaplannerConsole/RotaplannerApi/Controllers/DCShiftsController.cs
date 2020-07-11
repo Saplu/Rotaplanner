@@ -16,7 +16,6 @@ namespace RotaplannerApi.Controllers
     {
         private readonly ShiftContext _context;
         private List<Wish> _wishes;
-        //private List<Daycare> _daycares;
         private Daycare _dc;
         private RotationCalculator _calc;
 
