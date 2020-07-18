@@ -18,14 +18,6 @@ namespace DataAccess
         private string conn;
         
 
-        public Mongo()
-        {
-            conn = ConnectionString.conn;
-            _dbClient = new MongoClient(conn);
-            _db = _dbClient.GetDatabase("dcdata");
-            _collection = _db.GetCollection<BsonDocument>("dcdata");
-        }
-
         public Mongo(string connect)
         {
             conn = connect.Replace(" ", "");
