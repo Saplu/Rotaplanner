@@ -1,4 +1,5 @@
-﻿using DataTransfer;
+﻿using DataAccess;
+using DataTransfer;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,7 +9,7 @@ namespace ShiftCalculations
 {
     public class DbConnectionHandler
     {
-        readonly DataAccess.Mongo db = new DataAccess.Mongo();
+        readonly Mongo db = new Mongo(ConnectionString.connection);
         public async Task<List<Wish>> GetWishes(string set, string creator, List<Employee> employees)
         {
             var dbWishes = await db.GetWishes(set, creator);

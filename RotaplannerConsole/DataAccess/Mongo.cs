@@ -11,15 +11,25 @@ namespace DataAccess
 {
     public class Mongo
     {
-        private ConnectionString _cnn = new ConnectionString();
+        //private ConnectionString _cnn = new ConnectionString();
         private MongoClient _dbClient;
         private IMongoCollection<BsonDocument> _collection;
         private IMongoDatabase _db;
+        private string conn;
         
 
         public Mongo()
         {
-            _dbClient = new MongoClient(_cnn.conn);
+            conn = ConnectionString.conn;
+            _dbClient = new MongoClient(conn);
+            _db = _dbClient.GetDatabase("dcdata");
+            _collection = _db.GetCollection<BsonDocument>("dcdata");
+        }
+
+        public Mongo(string connect)
+        {
+            conn = connect.Replace(" ", "");
+            _dbClient = new MongoClient(conn);
             _db = _dbClient.GetDatabase("dcdata");
             _collection = _db.GetCollection<BsonDocument>("dcdata");
         }
