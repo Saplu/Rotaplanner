@@ -87,19 +87,20 @@ namespace RotaplannerApi.Controllers
         }
 
         // DELETE: api/ShiftWishes/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<ShiftWish>> DeleteShiftWish(long id)
+        [HttpDelete("{creator}/{set}")]
+        public async Task DeleteShiftWishSet(string creator, string set)
         {
-            var shiftWish = await _context.Wishes.FindAsync(id);
-            if (shiftWish == null)
-            {
-                return NotFound();
-            }
+            await _dbConn.DeleteWishSet(set, creator);
+            //var shiftWish = await _context.Wishes.FindAsync(id);
+            //if (shiftWish == null)
+            //{
+            //    return NotFound();
+            //}
 
-            _context.Wishes.Remove(shiftWish);
-            await _context.SaveChangesAsync();
+            //_context.Wishes.Remove(shiftWish);
+            //await _context.SaveChangesAsync();
 
-            return shiftWish;
+            //return shiftWish;
         }
 
         [HttpDelete]

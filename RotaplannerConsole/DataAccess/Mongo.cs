@@ -66,6 +66,19 @@ namespace DataAccess
             return DTOWishes;
         }
 
+        public async Task DeleteWishSet(string set, string creator)
+        {
+            var filter = Builders<BsonDocument>.Filter.And(
+                Builders<BsonDocument>.Filter.Eq("Set", set),
+                Builders<BsonDocument>.Filter.Eq("Creator", creator));
+            long deleted = 1;
+            while (deleted == 1)
+            {
+                var result = await _collection.DeleteOneAsync(filter);
+                deleted = result.DeletedCount;
+            }
+        }
+
         private List<DTOWish> ConvertToDTOWishes(List<BsonDocument> correctWishes)
         {
             var wishes = new List<DTOWish>();
