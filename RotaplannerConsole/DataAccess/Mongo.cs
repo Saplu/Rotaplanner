@@ -51,10 +51,18 @@ namespace DataAccess
 
         public async Task<List<DTOWish>> GetWishes(string set, string creator)
         {
+            var filter = Builders<BsonDocument>.Filter.And(
+                Builders<BsonDocument>.Filter.Eq("Set", set),
+                Builders<BsonDocument>.Filter.Eq("Creator", creator));
+            var wishes = new List<BsonDocument>();
+            await _collection.FindAsync(filter).Result.ForEachAsync(w => wishes.Add(w));
+
+
             var allWishes = new List<BsonDocument>();
             await _collection.Find(new BsonDocument()).ForEachAsync(w => allWishes.Add(w));
             var correctWishes = allWishes.Where(w => w.ElementAt(5).Value == set && w.ElementAt(4).Value == creator).ToList();
-            var DTOWishes = ConvertToDTOWishes(correctWishes);
+            var DTOWishes = ConvertToDTOWishes(wishes);
+
             return DTOWishes;
         }
 
@@ -71,12 +79,18 @@ namespace DataAccess
             var filter = Builders<BsonDocument>.Filter.And(
                 Builders<BsonDocument>.Filter.Eq("Set", set),
                 Builders<BsonDocument>.Filter.Eq("Creator", creator));
-            long deleted = 1;
-            while (deleted == 1)
-            {
-                var result = await _collection.DeleteOneAsync(filter);
-                deleted = result.DeletedCount;
-            }
+            await _collection.DeleteManyAsync(filter);
+        }
+
+        public async Task DeleteWish(string creator, string set, int day, int shift, int emp)
+        {
+            var filter = Builders<BsonDocument>.Filter.And(
+                Builders<BsonDocument>.Filter.Eq("Set", set),
+                Builders<BsonDocument>.Filter.Eq("Creator", creator),
+                Builders<BsonDocument>.Filter.Eq("Day", day),
+                Builders<BsonDocument>.Filter.Eq("Shift", shift),
+                Builders<BsonDocument>.Filter.Eq("Empid", emp));
+            await _collection.DeleteOneAsync(filter);
         }
 
         private List<DTOWish> ConvertToDTOWishes(List<BsonDocument> correctWishes)

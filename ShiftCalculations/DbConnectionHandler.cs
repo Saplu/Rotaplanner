@@ -39,6 +39,11 @@ namespace ShiftCalculations
             await db.DeleteWishSet(set, creator);
         }
 
+        public async Task DeleteWish(string creator, string set, int day, int shift, int emp)
+        {
+            await db.DeleteWish(creator, set, day, shift, emp);
+        }
+
         private List<Wish>ConvertDTOToWish(List<DTOWish> dtoWishes, List<Employee> employees)
         {
             var list = new List<Wish>();

@@ -81,35 +81,21 @@ namespace RotaplannerApi.Controllers
         public async Task PostShiftWish(ShiftWish shiftWish)
         {
             var DTOWish = ConvertToDTO(shiftWish);
-            //_context.Wishes.Add(shiftWish);
-            //await _context.SaveChangesAsync();
             await _dbConn.PostWish(DTOWish);
         }
 
-        // DELETE: api/ShiftWishes/5
+        // DELETE: api/ShiftWishes/string/string
         [HttpDelete("{creator}/{set}")]
         public async Task DeleteShiftWishSet(string creator, string set)
         {
             await _dbConn.DeleteWishSet(set, creator);
-            //var shiftWish = await _context.Wishes.FindAsync(id);
-            //if (shiftWish == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //_context.Wishes.Remove(shiftWish);
-            //await _context.SaveChangesAsync();
-
-            //return shiftWish;
         }
 
-        [HttpDelete]
-        public async Task<ActionResult<List<ShiftWish>>> DeleteWishes()
+        //DELETE: api/ShiftWishes/string/string/int/int/int
+        [HttpDelete("{creator}/{set}/{day}/{shift}/{emp}")]
+        public async Task DeleteWish(string creator, string set, int day, int shift, int emp)
         {
-            var wishes = _context.Wishes.ToList();
-            _context.Wishes.RemoveRange(_context.Wishes);
-            await _context.SaveChangesAsync();
-            return wishes;
+            await _dbConn.DeleteWish(creator, set, day, shift, emp);
         }
 
         private bool ShiftWishExists(long id)
