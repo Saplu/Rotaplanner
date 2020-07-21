@@ -21,25 +21,24 @@ namespace RotaplannerApi.Controllers
         }
 
         // GET: api/DaycareSelector
-        [HttpGet]
-        public async Task<ActionResult<int>> GetDaycareSelector()
-        {
-            var value = 0;
-            if (_context.DaycareSelector.Count() > 0)
-                value = _context.DaycareSelector.Last().Dc;
-            //var value = new int[_context.Daycares[_context.CurrentDc].Teams.Count];
-            //for (int i = 0; i < value.Length; i++)
-            //{
-            //    value[i] = i;
-            //}
-            return value;
-        }
+        //[HttpGet]
+        //public async Task<ActionResult<int>> GetDaycareSelector()
+        //{
+        //    var value = 0;
+        //    if (_context.DaycareSelector.Count() > 0)
+        //        value = _context.DaycareSelector.Last().Dc;
+        //    //var value = new int[_context.Daycares[_context.CurrentDc].Teams.Count];
+        //    //for (int i = 0; i < value.Length; i++)
+        //    //{
+        //    //    value[i] = i;
+        //    //}
+        //    return value;
+        //}
 
         // GET: api/DaycareSelector/5
         [HttpGet("{id}")]
         public async Task<ActionResult<int[]>> GetDaycareSelector(int id)
         {
-            _context.CurrentDc = id;
             try
             {
                 if (_context.Daycares[id] != null)
@@ -94,15 +93,15 @@ namespace RotaplannerApi.Controllers
         // POST: api/DaycareSelector
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
-        [HttpPost]
-        public async Task<int> PostDaycareSelector(DaycareSelector daycareSelector)
-        {
-            _context.CurrentDc = daycareSelector.Dc;
-            _context.DaycareSelector.Add(daycareSelector);
-            await _context.SaveChangesAsync();
+        //[HttpPost]
+        //public async Task<int> PostDaycareSelector(DaycareSelector daycareSelector)
+        //{
+        //    _context.CurrentDc = daycareSelector.Dc;
+        //    _context.DaycareSelector.Add(daycareSelector);
+        //    await _context.SaveChangesAsync();
 
-            return daycareSelector.Dc;
-        }
+        //    return daycareSelector.Dc;
+        //}
 
         //// DELETE: api/DaycareSelector/5
         //[HttpDelete("{id}")]

@@ -43,38 +43,6 @@ namespace RotaplannerApi.Controllers
             return shiftWishes;
         }
 
-        // PUT: api/ShiftWishes/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> PutShiftWish(long id, ShiftWish shiftWish)
-        //{
-        //    if (id != shiftWish.Id)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    _context.Entry(shiftWish).State = EntityState.Modified;
-
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!ShiftWishExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return NoContent();
-        //}
-
         // POST: api/ShiftWishes
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.

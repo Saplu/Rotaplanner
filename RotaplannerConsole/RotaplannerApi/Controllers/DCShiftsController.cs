@@ -102,38 +102,38 @@ namespace RotaplannerApi.Controllers
             }
         }
 
-        [HttpPost]
-        public async Task<ActionResult<object>> PostData(Group group)
-        {
-            _context.Groups.Add(new Group(group.Id, group.OpenGroup));
-            await _context.SaveChangesAsync();
-            return CreatedAtAction("GetDCShifts", new { id = group.Id }, group.OpenGroup);
-        }
+        //[HttpPost]
+        //public async Task<ActionResult<object>> PostData(Group group)
+        //{
+        //    _context.Groups.Add(new Group(group.Id, group.OpenGroup));
+        //    await _context.SaveChangesAsync();
+        //    return CreatedAtAction("GetDCShifts", new { id = group.Id }, group.OpenGroup);
+        //}
 
         // DELETE: api/DCShifts
-        [HttpDelete()]
-        public async Task<ActionResult<List<Group>>> DeleteGroups()
-        {
-            var groups = _context.Groups.ToList();
-            _context.Groups.RemoveRange(_context.Groups);
-            await _context.SaveChangesAsync();
-            return groups;
-        }
+        //[HttpDelete()]
+        //public async Task<ActionResult<List<Group>>> DeleteGroups()
+        //{
+        //    var groups = _context.Groups.ToList();
+        //    _context.Groups.RemoveRange(_context.Groups);
+        //    await _context.SaveChangesAsync();
+        //    return groups;
+        //}
 
         //DELETE: api/DCShifts/2
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<ShiftWish>> DeleteWish(long id)
-        {
-            var wish = await _context.Wishes.FindAsync(id);
-            if (wish == null)
-            {
-                return NotFound();
-            }
+        //[HttpDelete("{id}")]
+        //public async Task<ActionResult<ShiftWish>> DeleteWish(long id)
+        //{
+        //    var wish = await _context.Wishes.FindAsync(id);
+        //    if (wish == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            _context.Wishes.Remove(wish);
-            await _context.SaveChangesAsync();
-            return wish;
-        }
+        //    _context.Wishes.Remove(wish);
+        //    await _context.SaveChangesAsync();
+        //    return wish;
+        //}
 
         private bool DCShiftsExists(long id)
         {

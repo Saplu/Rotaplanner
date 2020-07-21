@@ -44,12 +44,19 @@ namespace ShiftCalculations
 
         private void Switch(Daycare dc, Wish wish)
         {
-            var team = dc.Teams[wish.Employee.Team];
-            AdjustTeamByWish(team, wish, dc.Employees.Count);
-            var current = Convert.ToInt32(wish.Employee.Shifts[wish.Day].Shift);
-            var wanted = wish.WantedShift;
-            if (current != wanted)
-                AdjustDaycareByWish(dc, wish, current);
+            try
+            {
+                var team = dc.Teams[wish.Employee.Team];
+                AdjustTeamByWish(team, wish, dc.Employees.Count);
+                var current = Convert.ToInt32(wish.Employee.Shifts[wish.Day].Shift);
+                var wanted = wish.WantedShift;
+                if (current != wanted)
+                    AdjustDaycareByWish(dc, wish, current);
+            }
+            catch(Exception)
+            {
+                throw new Exception("Valitut toiveet eivät ole mahdollisia valitulle päiväkodille.");
+            }
         }
 
         private void CheckTeacherSwitches(Daycare dc)
