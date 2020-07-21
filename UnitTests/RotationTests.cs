@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Moq;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace UnitTests
 {
@@ -132,7 +133,7 @@ namespace UnitTests
 
         [TestMethod]
         [ExpectedException(typeof(Exception))]
-        public void ThrowsExceptionOnSimilarWishesWithinTeam()
+        public async Task ThrowsExceptionOnSimilarWishesWithinTeam()
         {
             var dc = new Daycare();
             var rc = new RotationCalculator();
@@ -141,12 +142,12 @@ namespace UnitTests
                 new Wish(dc.Employees.Find(e => e.Id == 2), 10, 1),
                 new Wish(dc.Employees.Find(e => e.Id == 1), 11, 1)
             };
-            rc.DaycareShiftsOfThreeWeeks(dc, 0, wishes);
+            await rc.DaycareShiftsOfThreeWeeks(dc, 0, wishes);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void ThrowsArgumentExceptionOnCrossTeamDuplicateWish()
+        public async Task ThrowsArgumentExceptionOnCrossTeamDuplicateWish()
         {
             var dc = new Daycare();
             var rc = new RotationCalculator();
@@ -155,7 +156,7 @@ namespace UnitTests
                 new Wish(dc.Employees.Find(e => e.Id == 2), 10, 1),
                 new Wish(dc.Employees.Find(e => e.Id == 10), 10, 1)
             };
-            rc.DaycareShiftsOfThreeWeeks(dc, 0, wishes);
+            await rc.DaycareShiftsOfThreeWeeks(dc, 0, wishes);
         }
 
         [TestMethod]

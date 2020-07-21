@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
-using System.Diagnostics.CodeAnalysis;
-using DataTransfer;
 using System.Threading.Tasks;
 
 namespace ShiftCalculations
@@ -207,7 +204,7 @@ namespace ShiftCalculations
             if (counts.Item1.Count > 1)
                 for (int i = 1; i < counts.Item1.Count; i++)
                 {
-                    var wish = new Wish(emp, 1, counts.Item1[i]);
+                    var wish = new Wish(emp, dc.Teams.Count - 1, counts.Item1[i]);
                     Switch(dc, wish);
                 }
             if (counts.Item2.Count > 1)

@@ -17,12 +17,11 @@ namespace RotaplannerApi.Controllers
     [ApiController]
     public class ShiftWishesController : ControllerBase
     {
-        private readonly ShiftContext _context;
         private Mongo _mongo = new Mongo(ConnectionString.Connection);
 
-        public ShiftWishesController(ShiftContext context)
+        public ShiftWishesController()
         {
-            _context = context;
+            
         }
 
         // GET: api/ShiftWishes
@@ -44,8 +43,6 @@ namespace RotaplannerApi.Controllers
         }
 
         // POST: api/ShiftWishes
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
         public async Task PostShiftWish(ShiftWish shiftWish)
         {
@@ -65,11 +62,6 @@ namespace RotaplannerApi.Controllers
         public async Task DeleteWish(string creator, string set, int day, int shift, int emp)
         {
             await _mongo.DeleteWish(creator, set, day, shift, emp);
-        }
-
-        private bool ShiftWishExists(long id)
-        {
-            return _context.Wishes.Any(e => e.Id == id);
         }
 
         private List<ShiftWish> ConvertDTOToShiftWish(List<DTOWish> dtoWishes)
