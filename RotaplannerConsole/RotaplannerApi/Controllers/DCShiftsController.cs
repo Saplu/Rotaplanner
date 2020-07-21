@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DataAccess;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +19,7 @@ namespace RotaplannerApi.Controllers
         private List<Wish> _wishes;
         private Daycare _dc;
         private RotationCalculator _calc;
-        private DbConnectionHandler _dbConn = new DbConnectionHandler();
+        private Mongo _mongo = new Mongo(ConnectionString.Connection);
 
         public DCShiftsController(ShiftContext context)
         {
@@ -75,7 +76,7 @@ namespace RotaplannerApi.Controllers
             try
             {
                 _dc = _context.Daycares[id];
-                var dtoWishes = await _dbConn.GetWishes(set, creator);
+                var dtoWishes = await _mongo.GetWishes(set, creator);
                 var wishes = ConvertDTOToWish(dtoWishes, _dc);
 
                 await _calc.DaycareShiftsOfThreeWeeks(_dc, group, wishes);

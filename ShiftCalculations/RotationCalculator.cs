@@ -10,7 +10,6 @@ namespace ShiftCalculations
 {
     public class RotationCalculator
     {
-        private DbConnectionHandler _dbConn = new DbConnectionHandler();
         public RotationCalculator()
         {
 
@@ -18,8 +17,6 @@ namespace ShiftCalculations
 
         public async Task DaycareShiftsOfThreeWeeks(Daycare dc, int openingTeam, List<Wish> wishes)
         {
-            //var dbWishes = await _dbConn.GetWishes("default", "saplu", dc.Employees);
-
             CheckDuplicates(wishes);
             dc.Teams.ForEach(t => TeamShiftsOfWeek(t, openingTeam, dc.Teams.Count));
             openingTeam++;

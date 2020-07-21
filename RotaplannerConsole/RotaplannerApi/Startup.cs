@@ -16,7 +16,7 @@ namespace RotaplannerApi
             Configuration = configuration;
             string conn1 = configuration.GetSection("MySettings").GetSection("DbConnection").Value;
             string conn2 = configuration.GetValue<string>("MySettings:DbConnection");
-            DataAccess.ConnectionString.connection = conn2;
+            DataAccess.ConnectionString.Connection = conn2;
         }
 
         public IConfiguration Configuration { get; }

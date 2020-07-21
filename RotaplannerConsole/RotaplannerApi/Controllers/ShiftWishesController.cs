@@ -9,6 +9,7 @@ using RotaplannerApi.Models;
 using System.Text.Json;
 using ShiftCalculations;
 using DataTransfer;
+using DataAccess;
 
 namespace RotaplannerApi.Controllers
 {
@@ -17,7 +18,7 @@ namespace RotaplannerApi.Controllers
     public class ShiftWishesController : ControllerBase
     {
         private readonly ShiftContext _context;
-        private DbConnectionHandler _dbConn = new DbConnectionHandler();
+        private Mongo _mongo = new Mongo(ConnectionString.Connection);
 
         public ShiftWishesController(ShiftContext context)
         {
@@ -28,7 +29,7 @@ namespace RotaplannerApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ShiftWish>>> GetWishes()
         {
-            var dtoWishes = await _dbConn.GetWishes();
+            var dtoWishes = await _mongo.GetWishes();
             var shiftWishes = ConvertDTOToShiftWish(dtoWishes);
             return shiftWishes;
         }
@@ -37,7 +38,7 @@ namespace RotaplannerApi.Controllers
         [HttpGet("{creator}/{set}")]
         public async Task<ActionResult<IEnumerable<ShiftWish>>> GetShiftWish(string set, string creator)
         {
-            var dtoWishes = await _dbConn.GetWishes(set, creator);
+            var dtoWishes = await _mongo.GetWishes(set, creator);
             var shiftWishes = ConvertDTOToShiftWish(dtoWishes);
             return shiftWishes;
         }
@@ -81,21 +82,21 @@ namespace RotaplannerApi.Controllers
         public async Task PostShiftWish(ShiftWish shiftWish)
         {
             var DTOWish = ConvertToDTO(shiftWish);
-            await _dbConn.PostWish(DTOWish);
+            await _mongo.CreateWish(DTOWish);
         }
 
         // DELETE: api/ShiftWishes/string/string
         [HttpDelete("{creator}/{set}")]
         public async Task DeleteShiftWishSet(string creator, string set)
         {
-            await _dbConn.DeleteWishSet(set, creator);
+            await _mongo.DeleteWishSet(set, creator);
         }
 
         //DELETE: api/ShiftWishes/string/string/int/int/int
         [HttpDelete("{creator}/{set}/{day}/{shift}/{emp}")]
         public async Task DeleteWish(string creator, string set, int day, int shift, int emp)
         {
-            await _dbConn.DeleteWish(creator, set, day, shift, emp);
+            await _mongo.DeleteWish(creator, set, day, shift, emp);
         }
 
         private bool ShiftWishExists(long id)

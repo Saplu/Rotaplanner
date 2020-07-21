@@ -56,11 +56,6 @@ namespace DataAccess
                 Builders<BsonDocument>.Filter.Eq("Creator", creator));
             var wishes = new List<BsonDocument>();
             await _collection.FindAsync(filter).Result.ForEachAsync(w => wishes.Add(w));
-
-
-            var allWishes = new List<BsonDocument>();
-            await _collection.Find(new BsonDocument()).ForEachAsync(w => allWishes.Add(w));
-            var correctWishes = allWishes.Where(w => w.ElementAt(5).Value == set && w.ElementAt(4).Value == creator).ToList();
             var DTOWishes = ConvertToDTOWishes(wishes);
 
             return DTOWishes;

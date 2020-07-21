@@ -6,6 +6,6 @@ namespace DataAccess
 {
     public static class ConnectionString
     {
-        public static string connection { get; set; }
+        public static string Connection { get; set; }
     }
 }
