@@ -22,8 +22,8 @@ namespace RotaplannerApi.Controllers
             _calc = new RotationCalculator();
         }
 
-        [HttpGet("{id}/{group}/{creator}/{set}")]
-        public async Task<string> GetDCShifts(int id, int group, string creator, string set)
+        [HttpGet("{id}/{group}/{creator}/{set}/{up}")]
+        public async Task<string> GetDCShifts(int id, int group, string creator, string set, int up)
         {
             try
             {
@@ -31,7 +31,7 @@ namespace RotaplannerApi.Controllers
                 var dtoWishes = await _mongo.GetWishes(set, creator);
                 var wishes = ConvertDTOToWish(dtoWishes, dc);
 
-                await _calc.DaycareShiftsOfThreeWeeks(dc, group, wishes);
+                await _calc.DaycareShiftsOfThreeWeeks(dc, group, wishes, up);
                 var allShifts = "";
                 foreach (var team in dc.Teams)
                 {

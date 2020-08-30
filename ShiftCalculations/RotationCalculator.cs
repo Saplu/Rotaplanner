@@ -12,29 +12,30 @@ namespace ShiftCalculations
 
         }
 
-        public async Task DaycareShiftsOfThreeWeeks(Daycare dc, int openingTeam, List<Wish> wishes)
+        public async Task DaycareShiftsOfThreeWeeks(Daycare dc, int openingTeam, List<Wish> wishes, int up = 0)
         {
+            bool upOrDown = Convert.ToBoolean(up);
             CheckDuplicates(wishes);
-            dc.Teams.ForEach(t => TeamShiftsOfWeek(t, openingTeam, dc.Teams.Count));
+            dc.Teams.ForEach(t => TeamShiftsOfWeek(t, openingTeam, dc.Teams.Count, upOrDown));
             openingTeam++;
             if (openingTeam > dc.Teams.Count - 1)
                 openingTeam = 0;
             dc.RotateTeamsOneWeek();
-            dc.Teams.ForEach(t => TeamShiftsOfWeek(t, openingTeam, dc.Teams.Count));
+            dc.Teams.ForEach(t => TeamShiftsOfWeek(t, openingTeam, dc.Teams.Count, upOrDown));
             openingTeam++;
             if (openingTeam > dc.Teams.Count - 1)
                 openingTeam = 0;
             dc.RotateTeamsOneWeek();
-            dc.Teams.ForEach(t => TeamShiftsOfWeek(t, openingTeam, dc.Teams.Count));
+            dc.Teams.ForEach(t => TeamShiftsOfWeek(t, openingTeam, dc.Teams.Count, upOrDown));
 
             foreach(var wish in wishes)
                 Switch(dc, wish);
             CheckTeacherSwitches(dc);
         }
-        public List<WorkShift> TeamShiftsOfWeek(Team team, int openingTeam, int teamCount)
+        public List<WorkShift> TeamShiftsOfWeek(Team team, int openingTeam, int teamCount, bool up)
         {
             var status = GetWeekStatus(team.TeamNumber, openingTeam, teamCount);
-            var shifts = GetWeekShifts(status, team, teamCount);
+            var shifts = GetWeekShifts(status, team, teamCount, up);
 
             return shifts;
         }
@@ -50,9 +51,9 @@ namespace ShiftCalculations
                 if (current != wanted)
                     AdjustDaycareByWish(dc, wish, current);
             }
-            catch(Exception)
+            catch(Exception e)
             {
-                throw new Exception("Valitut toiveet eivät ole mahdollisia valitulle päiväkodille.");
+                throw e;
             }
         }
 
@@ -85,10 +86,10 @@ namespace ShiftCalculations
 
         }
 
-        private List<WorkShift> GetWeekShifts(int status, Team team, int teamCount)
+        private List<WorkShift> GetWeekShifts(int status, Team team, int teamCount, bool up)
         {
             var shifts = new List<WorkShift>();
-            var teamShifts = GetTeamShifts(status, teamCount);
+            var teamShifts = GetTeamShifts(status, teamCount, up);
 
             for (int i = 0; i < team.TeamEmp.Count; i++)
             {
@@ -102,9 +103,17 @@ namespace ShiftCalculations
             return shifts;
         }
 
-        private List<int> GetTeamShifts(int status, int teamCount) => new List<int>() {
-            status, status + teamCount, status + (teamCount*2),
-            status, status + teamCount, status + (teamCount*2), status};
+        private List<int> GetTeamShifts(int status, int teamCount, bool up)
+        {
+            var list = new List<int>()
+                {
+                    status, status + teamCount, status + (teamCount*2),
+                    status, status + teamCount, status + (teamCount*2), status
+                };
+            if (up) return list;
+            list.Reverse();
+            return list;
+        }
 
         private void AdjustTeamByWish(Team team, Wish wish, int empCount)
         {

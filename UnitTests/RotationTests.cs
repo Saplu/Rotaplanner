@@ -17,7 +17,7 @@ namespace UnitTests
             var dc = new Daycare();
             var rc = new RotationCalculator();
             var actual = new List<WorkShift>();
-            dc.Teams.ForEach(d => actual.AddRange(rc.TeamShiftsOfWeek(d, 0, dc.Teams.Count)));
+            dc.Teams.ForEach(d => actual.AddRange(rc.TeamShiftsOfWeek(d, 0, dc.Teams.Count, true)));
             var expected = new List<WorkShift>()
             {
                 new WorkShift(0),
@@ -121,7 +121,7 @@ namespace UnitTests
                 new Wish(dc.Employees.Find(e => e.Id == 1), 1, 1),
                 new Wish(dc.Employees.Find(e => e.Id == 9), 10, 1)
             };
-            rc.DaycareShiftsOfThreeWeeks(dc, 0, wishes);
+            rc.DaycareShiftsOfThreeWeeks(dc, 0, wishes, 0);
             var actual = dc.Employees.Select(e => (int)e.Shifts[1].Shift).ToList();
 
             var expected = new List<int>()
@@ -142,7 +142,7 @@ namespace UnitTests
                 new Wish(dc.Employees.Find(e => e.Id == 2), 10, 1),
                 new Wish(dc.Employees.Find(e => e.Id == 1), 11, 1)
             };
-            await rc.DaycareShiftsOfThreeWeeks(dc, 0, wishes);
+            await rc.DaycareShiftsOfThreeWeeks(dc, 0, wishes, 0);
         }
 
         [TestMethod]
@@ -156,7 +156,7 @@ namespace UnitTests
                 new Wish(dc.Employees.Find(e => e.Id == 2), 10, 1),
                 new Wish(dc.Employees.Find(e => e.Id == 10), 10, 1)
             };
-            await rc.DaycareShiftsOfThreeWeeks(dc, 0, wishes);
+            await rc.DaycareShiftsOfThreeWeeks(dc, 0, wishes, 0);
         }
 
         [TestMethod]
@@ -170,7 +170,7 @@ namespace UnitTests
             var dc = new Daycare(teams);
             var rc = new RotationCalculator();
             var wishes = new List<Wish>();
-            rc.DaycareShiftsOfThreeWeeks(dc, 0, wishes);
+            rc.DaycareShiftsOfThreeWeeks(dc, 0, wishes, 0);
             var emp0Shifts = dc.Teams[0].TeamEmp[0].Shifts;
             var emp1Shifts = dc.Teams[0].TeamEmp[1].Shifts;
             var emp2Shifts = dc.Teams[0].TeamEmp[2].Shifts;

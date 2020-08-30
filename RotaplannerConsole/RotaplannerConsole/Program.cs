@@ -20,7 +20,7 @@ namespace RotaplannerConsole
                     //new Wish(dc.Employees.Find(e => e.Id == 6), 10, 4),
                     new Wish(dc.Employees.Find(e => e.Id == 10), 6, 1)
                 };
-                calc.DaycareShiftsOfThreeWeeks(dc, 0, wishes);
+                calc.DaycareShiftsOfThreeWeeks(dc, 0, wishes, 0);
 
                 foreach (var team in dc.Teams)
                 {
