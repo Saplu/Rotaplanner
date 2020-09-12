@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using DataAccess;
 using Microsoft.AspNetCore.Mvc;
@@ -35,18 +36,23 @@ namespace RotaplannerApi.Controllers
                 var allShifts = "";
                 foreach (var team in dc.Teams)
                 {
-                    foreach (var emp in team.TeamEmp)
+                    List<Employee> sorted = team.TeamEmp.OrderBy(e => e.Id).ToList();
+                    foreach (var emp in sorted)
                     {
-                        var shifts = emp.Id.ToString() + " " + emp.Status.ToString() + ": ";
+                        var shifts = emp.Status == StatusEnum.Nurse ?
+                            $"{emp.Id} {emp.Status}:   " :
+                            $"{emp.Id} {emp.Status}: ";
+
                         foreach (var shift in emp.Shifts)
                         {
-                            var num = Convert.ToInt32(shift.Shift);
+                            var num = Convert.ToInt32(shift.Shift) + 1;
                             shifts += num + ((num > 9) ? " " : "  ");
                         }
                         allShifts += ("\n" + shifts);
                     }
+                    allShifts += ("\n");
                 }
-                return allShifts;
+                return allShifts.Trim();
             }
             catch (Exception ex)
             {
