@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using RotaplannerApi.Models;
-using System.Text.Json;
-using ShiftCalculations;
 using DataTransfer;
 using DataAccess;
 
@@ -58,13 +52,7 @@ namespace RotaplannerApi.Controllers
             await _mongo.DeleteWishSet(set, creator);
         }
 
-        //DELETE: api/ShiftWishes/string/string/int/int/int
-        [HttpDelete("{creator}/{set}/{day}/{shift}/{emp}")]
-        public async Task DeleteWish(string creator, string set, int day, int shift, int emp)
-        {
-            await _mongo.DeleteWish(creator, set, day, shift, emp);
-        }
-
+        //DELETE: api/ShiftWishes/int
         [HttpDelete("{id}")]
         public async Task DeleteWish(long id)
         {

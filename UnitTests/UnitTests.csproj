@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RotaplannerConsole\RotaplannerConsole\RotaplannerConsole.csproj" />
+    <ProjectReference Include="..\RotaplannerConsole\RotaplannerApi\RotaplannerApi.csproj" />
     <ProjectReference Include="..\ShiftCalculations\ShiftCalculations.csproj" />
   </ItemGroup>
 

@@ -1,7 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ShiftCalculations;
 using System.Collections.Generic;
-using Moq;
 using System;
 using System.Linq;
 using System.Threading.Tasks;

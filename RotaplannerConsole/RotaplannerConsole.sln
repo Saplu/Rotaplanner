@@ -3,17 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29905.134
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RotaplannerConsole", "RotaplannerConsole\RotaplannerConsole.csproj", "{5BF52AA6-6BCD-4713-944A-B9E923E199EF}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShiftCalculations", "..\ShiftCalculations\ShiftCalculations.csproj", "{2F003474-130B-404B-82EF-03D68F266707}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "..\UnitTests\UnitTests.csproj", "{7BB0C469-71C8-4AEA-827F-025425F812FA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RotaplannerApi", "RotaplannerApi\RotaplannerApi.csproj", "{FA95FD73-AFAC-4DA3-A19A-B218C0315A3E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{44902157-3362-437C-AF49-32DB0BA328F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DataAccess\DataAccess.csproj", "{44902157-3362-437C-AF49-32DB0BA328F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataTransfer", "DataTransfer\DataTransfer.csproj", "{5B6768A3-F5D2-47E6-B42E-0D8A3E944889}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataTransfer", "DataTransfer\DataTransfer.csproj", "{5B6768A3-F5D2-47E6-B42E-0D8A3E944889}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,10 +19,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5BF52AA6-6BCD-4713-944A-B9E923E199EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5BF52AA6-6BCD-4713-944A-B9E923E199EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5BF52AA6-6BCD-4713-944A-B9E923E199EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5BF52AA6-6BCD-4713-944A-B9E923E199EF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2F003474-130B-404B-82EF-03D68F266707}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2F003474-130B-404B-82EF-03D68F266707}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F003474-130B-404B-82EF-03D68F266707}.Release|Any CPU.ActiveCfg = Release|Any CPU
