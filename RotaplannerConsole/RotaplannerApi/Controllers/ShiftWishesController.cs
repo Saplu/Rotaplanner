@@ -37,6 +37,7 @@ namespace RotaplannerApi.Controllers
         [HttpGet("{creator}/{set}")]
         public async Task<ActionResult<IEnumerable<ShiftWish>>> GetShiftWish(string set, string creator)
         {
+;
             var dtoWishes = await _mongo.GetWishes(set, creator);
             var shiftWishes = ConvertDTOToShiftWish(dtoWishes);
             return shiftWishes;
@@ -46,7 +47,6 @@ namespace RotaplannerApi.Controllers
         [HttpPost]
         public async Task PostShiftWish(ShiftWish shiftWish)
         {
-            
             var DTOWish = ConvertToDTO(shiftWish);
             await _mongo.CreateWish(DTOWish);
         }
