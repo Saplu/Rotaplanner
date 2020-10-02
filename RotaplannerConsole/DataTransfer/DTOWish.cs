@@ -9,14 +9,16 @@ namespace DataTransfer
         public int Day { get; set; }
         public string Creator { get; set; }
         public string Set { get; set; }
+        public long Id { get; set; }
 
-        public DTOWish(int id, int shift, int day, string creator, string set)
+        public DTOWish(int empId, int shift, int day, string creator, string set, long id)
         {
-            EmpId = id;
+            EmpId = empId;
             Shift = shift;
             Day = day;
             Creator = creator;
             Set = set;
+            Id = id;
         }
     }
 }

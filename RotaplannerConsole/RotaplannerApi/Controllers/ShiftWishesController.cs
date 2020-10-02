@@ -46,6 +46,7 @@ namespace RotaplannerApi.Controllers
         [HttpPost]
         public async Task PostShiftWish(ShiftWish shiftWish)
         {
+            
             var DTOWish = ConvertToDTO(shiftWish);
             await _mongo.CreateWish(DTOWish);
         }
@@ -64,16 +65,22 @@ namespace RotaplannerApi.Controllers
             await _mongo.DeleteWish(creator, set, day, shift, emp);
         }
 
+        [HttpDelete("{id}")]
+        public async Task DeleteWish(long id)
+        {
+            await _mongo.DeleteWish(id);
+        }
+
         private List<ShiftWish> ConvertDTOToShiftWish(List<DTOWish> dtoWishes)
         {
             var list = new List<ShiftWish>();
-            dtoWishes.ForEach(w => list.Add(new ShiftWish(w.EmpId, w.Shift, w.Day, w.Creator, w.Set)));
+            dtoWishes.ForEach(w => list.Add(new ShiftWish(w.EmpId, w.Shift, w.Day, w.Creator, w.Set, w.Id)));
             return list;
         }
 
         private DTOWish ConvertToDTO(ShiftWish wish)
         {
-            var DTOWish = new DTOWish(wish.EmpId, wish.Shift, wish.Day, wish.Creator, wish.Set);
+            var DTOWish = new DTOWish(wish.EmpId, wish.Shift, wish.Day, wish.Creator, wish.Set, wish.Id);
             return DTOWish;
         }
     }

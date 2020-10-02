@@ -15,20 +15,20 @@ namespace RotaplannerApi.Models
         public string Creator { get; set; }
         public string Set { get; set; }
 
-        public ShiftWish(int empId, int shift, int day, string creator, string set)
+        public ShiftWish(int empId, int shift, int day, string creator, string set, long id)
         {
             EmpId = empId;
             Shift = shift;
             Day = day;
             Creator = creator;
             Set = set;
-            var rand = new Random();
-            Id = rand.Next();
+            Id = id;
         }
 
         public ShiftWish()
         {
-
+            var rand = new Random();
+            Id = rand.Next();
         }
     }
 }

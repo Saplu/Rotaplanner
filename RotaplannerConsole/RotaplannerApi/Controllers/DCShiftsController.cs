@@ -24,7 +24,7 @@ namespace RotaplannerApi.Controllers
         }
 
         [HttpGet("{id}/{group}/{creator}/{set}/{up}")]
-        public async Task<string> GetDCShifts(int id, int group, string creator, string set, int up)
+        public async Task<Shifts> GetDCShifts(int id, int group, string creator, string set, int up)
         {
             try
             {
@@ -33,7 +33,7 @@ namespace RotaplannerApi.Controllers
                 var wishes = ConvertDTOToWish(dtoWishes, dc);
 
                 await _calc.DaycareShiftsOfThreeWeeks(dc, group, wishes, up);
-                var allShifts = "";
+                var dcShifts = new Shifts();
                 foreach (var team in dc.Teams)
                 {
                     List<Employee> sorted = team.TeamEmp.OrderBy(e => e.Id).ToList();
@@ -48,15 +48,16 @@ namespace RotaplannerApi.Controllers
                             var num = Convert.ToInt32(shift.Shift) + 1;
                             shifts += num + ((num > 9) ? " " : "  ");
                         }
-                        allShifts += ("\n" + shifts);
+                        dcShifts.Add(shifts.Trim());
                     }
-                    allShifts += ("\n");
                 }
-                return allShifts.Trim();
+                return dcShifts;
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                var fail = new Shifts();
+                fail.AllShifts.Add(ex.Message);
+                return fail;
             }
         }
 

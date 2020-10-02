@@ -44,6 +44,9 @@ namespace DataAccess
                 },
                 {
                     "Set", wish.Set
+                },
+                {
+                    "Id", wish.Id
                 }
             };
             await _collection.InsertOneAsync(bsonWish);
@@ -88,18 +91,25 @@ namespace DataAccess
             await _collection.DeleteOneAsync(filter);
         }
 
+        public async Task DeleteWish(long id)
+        {
+            var filter = Builders<BsonDocument>.Filter.Eq("Id", id);
+            await _collection.DeleteOneAsync(filter);
+        }
+
         private List<DTOWish> ConvertToDTOWishes(List<BsonDocument> correctWishes)
         {
             var wishes = new List<DTOWish>();
             foreach(var wish in correctWishes)
             {
-                int id = (int)wish.ElementAt(1).Value;
+                int empId = (int)wish.ElementAt(1).Value;
                 int shift = (int)wish.ElementAt(2).Value;
                 int day = (int)wish.ElementAt(3).Value;
                 string creator = wish.ElementAt(4).Value.ToString();
                 string set = wish.ElementAt(5).Value.ToString();
+                long id = wish.ElementAt(6).Value.ToInt64();
 
-                var DTO = new DTOWish(id, shift, day, creator, set);
+                var DTO = new DTOWish(empId, shift, day, creator, set, id);
                 wishes.Add(DTO);
             }
             return wishes;
